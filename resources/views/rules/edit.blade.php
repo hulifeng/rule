@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label"><i class="fa fa-question-circle"></i> 满足条件</label>
+                            <label class="layui-form-label"><i class="fa fa-question-circle tooltip-icon" data-tips="设置您想让我们发送通知或执行操作的条件。条件是对投放数据做判断。"></i> 满足条件</label>
                             <div class="layui-inline">
                                 <select name="" id="" class="layui-select">
                                     <option value="">满足以下所有条件</option>
@@ -113,8 +113,8 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label"><i class="fa fa-question-circle"
-                                                               lay-tips="设置您想让我们发送通知或执行操作的条件。条件是对投放数据做判断。条件之间的关系可以自由切换。"></i>
+                            <label class="layui-form-label"><i class="fa fa-question-circle tooltip-icon"
+                                                               data-tips="设置您想让我们发送通知或执行操作的条件。条件是对投放数据做判断。条件之间的关系可以自由切换。"></i>
                                 执行操作</label>
                             <div class="layui-inline">
                                 <label class="layui-form-label">项</label>
@@ -301,6 +301,25 @@
                 echo "indexnum = $index";
             }
         @endphp
+
+        $(function () {
+            var tips;
+            $('i.tooltip-icon').on({
+                mouseenter: function () {
+                    var that = this,
+                        text = $(that).data('tips');
+                    tips = layer.tips("<span style='color: white;'>" + text + "</span>", that, {
+                        tips: [3],
+                        time: 0,
+                        area: 'auto',
+                        maxWidth: 500
+                    });
+                },
+                mouseleave: function () {
+                    layer.close(tips);
+                }
+            });
+        });
 
         layui.use(['form', 'laydate'], function () {
             var form = layui.form,
