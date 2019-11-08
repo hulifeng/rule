@@ -5,11 +5,17 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+//@import '~bootstrap/scss/bootstrap';
+
+// FontAwesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/v4-shims.scss";
 
 // Animate
 @import '~animate.css';
-
 
 .rule-body {
   padding: 50px 0;
@@ -17,4 +23,5 @@
 
 .rule-fluid {
   max-width: 1800px;
+  box-shadow: 0 1px 11px 2px rgba(42,42,42,.1);
 }

@@ -20,3 +20,7 @@ Route::resource('rules', 'RulesController');
 Route::get('/', function () {
     return redirect()->route('rules.index');
 });
+
+Route::get('oauth2', 'OAuthController@index');
+
+Route::get('getAccessToken', 'OAuthController@getAccessToken');

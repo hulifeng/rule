@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label"><i class="fa fa-question-circle"></i> 满足条件</label>
+                            <label class="layui-form-label"><i class="fa fa-question-circle tooltip-icon" data-tips="设置您想让我们发送通知或执行操作的条件。条件是对投放数据做判断。"></i> 满足条件</label>
                             <div class="layui-inline">
                                 <select name="" id="" class="layui-select">
                                     <option value="">满足以下所有条件</option>
@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label"><i class="fa fa-question-circle" lay-tips="设置您想让我们发送通知或执行操作的条件。条件是对投放数据做判断。条件之间的关系可以自由切换。"></i> 执行操作</label>
+                            <label class="layui-form-label"><i class="fa fa-question-circle tooltip-icon" data-tips="设置您想让我们发送通知或执行操作的条件。条件是对投放数据做判断。条件之间的关系可以自由切换。"></i> 执行操作</label>
                             <div class="layui-inline">
                                 <label class="layui-form-label">项</label>
                                 <div class="layui-input-inline">
@@ -173,6 +173,25 @@
     <script src="/static/layui/layui.all.js"></script>
     <script src="/static/layui/laydate.js"></script>
     <script>
+        $(function () {
+            var tips;
+            $('i.tooltip-icon').on({
+                mouseenter: function () {
+                    var that = this,
+                        text = $(that).data('tips');
+                    tips = layer.tips("<span style='color: white;'>" + text + "</span>", that, {
+                        tips: [3],
+                        time: 0,
+                        area: 'auto',
+                        maxWidth: 500
+                    });
+                },
+                mouseleave: function () {
+                    layer.close(tips);
+                }
+            });
+        });
+
         layui.use(['form', 'laydate'], function(){
             var form = layui.form,
                 laydate = layui.laydate;
@@ -455,17 +474,17 @@
                 if(current_val == 1 || current_val == 2 ){
                     _html += '<label class="layui-form-label">值</label>\n' +
                         '                                            <div class="layui-input-inline">\n' +
-                        '                                                <input type="text" name="val1[]" lay-verify="val1" class="layui-input" style="width: 100px;" placeholder="'+unit+'">\n' +
+                        '                                                <input type="text" name="val1[]" lay-verify="val1" class="layui-input" style="width: 100px;" placeholder="">\n' +
                         '                                            </div>\n' +
                         '                                            <input type="hidden" name="val2[]" value="0">';
                 }else if(current_val == 3){
                     _html += '<label class="layui-form-label">值</label>\n' +
                         '                                            <div class="layui-input-inline">\n' +
-                        '                                                <input type="text" name="val1[]" lay-verify="val1" class="layui-input" placeholder="'+unit+'">\n' +
+                        '                                                <input type="text" name="val1[]" lay-verify="val1" class="layui-input" placeholder="">\n' +
                         '                                            </div>\n'+
                         '                                            <label class="layui-form-label" style="text-align: center;padding: 9px 3px;"> - </label>\n' +
                         '                                            <div class="layui-input-inline">\n' +
-                        '                                                <input type="text" name="val2[]" class="layui-input" placeholder="'+unit+'">\n' +
+                        '                                                <input type="text" name="val2[]" class="layui-input" placeholder="">\n' +
                         '                                            </div>';
                 }else if(current_val == 4){
                     _html +=
