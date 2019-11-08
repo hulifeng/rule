@@ -2,21 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0251e2e3-4516-4730-9681-a648dcacad16" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/oauth/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/rule.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/rule.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/database.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sass/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/rules/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/rules/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/oauth/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/oauth/index.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +15,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OAuthController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="414">
@@ -50,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/web.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="496">
-              <caret line="25" selection-start-line="25" selection-end-line="25" selection-end-column="63" />
+            <state relative-caret-position="341">
+              <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -127,11 +113,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/oauth/index.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="341">
-              <caret line="11" column="100" selection-start-line="11" selection-start-column="100" selection-end-line="11" selection-end-column="100" />
+              <caret line="11" column="158" selection-start-line="11" selection-start-column="158" selection-end-line="11" selection-end-column="158" />
             </state>
           </provider>
         </entry>
@@ -191,7 +177,6 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" />
         <option value="$PROJECT_DIR$/resources/views/rules/edit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/rules/index.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/oauth/index.blade.php" />
         <option value="$PROJECT_DIR$/.env.example" />
         <option value="$PROJECT_DIR$/resources/views/rules/create.blade.php" />
         <option value="$PROJECT_DIR$/resources/sass/app.scss" />
@@ -199,6 +184,7 @@
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/storage/logs/laravel-2019-11-08.log" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OAuthController.php" />
+        <option value="$PROJECT_DIR$/resources/views/oauth/index.blade.php" />
       </list>
     </option>
   </component>
@@ -338,6 +324,13 @@
             <path>
               <item name="rule" type="b2602c69:ProjectViewProjectNode" />
               <item name="rule" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="oauth" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rule" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rule" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -401,12 +394,12 @@
       <option name="presentableId" value="Default" />
       <updated>1573106016056</updated>
       <workItem from="1573106017887" duration="22034000" />
-      <workItem from="1573179260273" duration="5996000" />
+      <workItem from="1573179260273" duration="6233000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28030000" />
+    <option name="totallyTimeSpent" value="28267000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="198" y="114" width="1524" height="949" extended-state="0" />
@@ -650,13 +643,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/oauth/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="11" column="100" selection-start-line="11" selection-start-column="100" selection-end-line="11" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/rules/create.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="496">
@@ -718,17 +704,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="25" selection-start-line="25" selection-end-line="25" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OAuthController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
           <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="20" column="44" lean-forward="true" selection-start-line="20" selection-start-column="44" selection-end-line="20" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/oauth/index.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="11" column="158" selection-start-line="11" selection-start-column="158" selection-end-line="11" selection-end-column="158" />
         </state>
       </provider>
     </entry>

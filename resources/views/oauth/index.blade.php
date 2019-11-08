@@ -9,7 +9,7 @@
 </head>
 <body>
 <script>
-    document.location = 'https://ad.oceanengine.com/openapi/audit/oauth.html?app_id=1648064932441164&redirect_uri=http%3A%2F%2F152.136.122.192';
+    document.location = 'https://ad.oceanengine.com/openapi/audit/oauth.html?app_id=1648064932441164&redirect_uri=http%3A%2F%2Frule.usigh.com%2FgetAccessToken';
 </script>
 </body>
 </html>
