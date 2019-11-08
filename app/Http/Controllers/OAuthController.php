@@ -13,7 +13,7 @@ class OAuthController extends Controller
 
     public function getAccessToken()
     {
-        return response(request()->input('code'));
+        return response(request()->input('auth_code'));
     }
 
     public function refreshAccessToken()
