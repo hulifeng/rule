@@ -24,3 +24,5 @@ Route::get('/', function () {
 Route::get('oauth2', 'OAuthController@index');
 
 Route::get('getAccessToken', 'OAuthController@getAccessToken');
+
+Route::get('refreshAccessToken', 'OAuthController@refreshAccessToken');
