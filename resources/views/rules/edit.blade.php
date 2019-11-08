@@ -127,83 +127,98 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="layui-inline" id="my_action">
+                            @if($rule->excute_item == 3)
                                 <div class="layui-inline">
                                     <label class="layui-form-label">动作</label>
                                     <div class="layui-input-inline">
-                                        <select name="excute_action" lay-filter="excute_action" id="excute_action">
-                                            <option value="1">调整至</option>
-                                            <option value="2">提高</option>
-                                            <option value="3">降低</option>
+                                        <select name="excute_switch" id="excute_switch" lay-filter="excute_switch">
+                                            <option value="">请选择动作</option>
+                                            <option value="1" @if($rule->excute_switch == 1) selected @endif>开启</option>
+                                            <option value="0" @if($rule->excute_switch == 0) selected @endif>暂停</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="layui-inline" id="my_action_value">
+                            @elseif($rule->excute_item == 4)
+
+                            @else
+                                <div class="layui-inline" id="my_action">
                                     <div class="layui-inline">
-                                        <label class="layui-form-label">值</label>
-                                        <div class="layui-input-inline" style="margin-right: 0; width: 100px;">
-                                            <input type="text" name="excute_val" id="excute_val" lay-verify="val1"
-                                                   class="layui-input">
-                                        </div>
-                                        <div class="layui-input-inline" style="width: 70px;">
-                                            <select name="excute_val_type" id="excute_val_type">
-                                                <option value="1">元</option>
-                                                <option value="2">%</option>
+                                        <label class="layui-form-label">动作</label>
+                                        <div class="layui-input-inline">
+                                            <select name="excute_action" lay-filter="excute_action" id="excute_action">
+                                                <option value="1">调整至</option>
+                                                <option value="2">提高</option>
+                                                <option value="3">降低</option>
                                             </select>
                                         </div>
                                     </div>
-                                    @if($rule->frequency)
+                                    <div class="layui-inline" id="my_action_value">
                                         <div class="layui-inline">
-                                            <label class="layui-form-label">频次</label>
+                                            <label class="layui-form-label">值</label>
                                             <div class="layui-input-inline" style="margin-right: 0; width: 100px;">
-                                                <select name="frequency" id="frequency">
-                                                    <option value="1">1次</option>
-                                                    <option value="2">2次</option>
-                                                    <option value="3">3次</option>
-                                                    <option value="4">4次</option>
-                                                    <option value="5">5次</option>
-                                                    <option value="6">不限</option>
-                                                </select>
+                                                <input type="text" name="excute_val" id="excute_val" lay-verify="val1"
+                                                       class="layui-input">
                                             </div>
                                             <div class="layui-input-inline" style="width: 70px;">
-                                                <select name="frequency_type" id="frequency_type">
-                                                    <option value="1">每天</option>
-                                                    <option value="2">每周</option>
-                                                    <option value="3">每月</option>
+                                                <select name="excute_val_type" id="excute_val_type">
+                                                    <option value="1">元</option>
+                                                    <option value="2">%</option>
                                                 </select>
                                             </div>
                                         </div>
-                                    @endif
-                                    @if($rule->upper_limit || $rule->lower_limit)
-                                        <div class="layui-inline">
-                                            @if($rule->upper_limit)
-                                                <label class="layui-form-label">上限</label>
+                                        @if($rule->frequency)
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">频次</label>
                                                 <div class="layui-input-inline" style="margin-right: 0; width: 100px;">
-                                                    <input type="text" value="{{$rule->upper_limit}}"
-                                                           class="layui-input" name="upper_limit" id="upper_limit">
-                                                </div>
-                                                <div class="layui-input-inline" style="width: 70px;">
-                                                    <select id="">
-                                                        <option value="">元</option>
+                                                    <select name="frequency" id="frequency">
+                                                        <option value="1">1次</option>
+                                                        <option value="2">2次</option>
+                                                        <option value="3">3次</option>
+                                                        <option value="4">4次</option>
+                                                        <option value="5">5次</option>
+                                                        <option value="6">不限</option>
                                                     </select>
                                                 </div>
-                                            @else
-                                                <label class="layui-form-label">下限</label>
-                                                <div class="layui-input-inline" style="margin-right: 0; width: 100px;">
-                                                    <input type="text" value="{{$rule->lower_limit}}"
-                                                           class="layui-input" name="upper_limit" id="upper_limit">
-                                                </div>
                                                 <div class="layui-input-inline" style="width: 70px;">
-                                                    <select id="">
-                                                        <option value="">元</option>
+                                                    <select name="frequency_type" id="frequency_type">
+                                                        <option value="1">每天</option>
+                                                        <option value="2">每周</option>
+                                                        <option value="3">每月</option>
                                                     </select>
                                                 </div>
-                                            @endif
+                                            </div>
+                                        @endif
+                                        @if($rule->upper_limit || $rule->lower_limit)
+                                            <div class="layui-inline">
+                                                @if($rule->upper_limit)
+                                                    <label class="layui-form-label">上限</label>
+                                                    <div class="layui-input-inline" style="margin-right: 0; width: 100px;">
+                                                        <input type="text" value="{{$rule->upper_limit}}"
+                                                               class="layui-input" name="upper_limit" id="upper_limit">
+                                                    </div>
+                                                    <div class="layui-input-inline" style="width: 70px;">
+                                                        <select id="">
+                                                            <option value="">元</option>
+                                                        </select>
+                                                    </div>
+                                                @else
+                                                    <label class="layui-form-label">下限</label>
+                                                    <div class="layui-input-inline" style="margin-right: 0; width: 100px;">
+                                                        <input type="text" value="{{$rule->lower_limit}}"
+                                                               class="layui-input" name="upper_limit" id="upper_limit">
+                                                    </div>
+                                                    <div class="layui-input-inline" style="width: 70px;">
+                                                        <select id="">
+                                                            <option value="">元</option>
+                                                        </select>
+                                                    </div>
+                                                @endif
 
-                                        </div>
-                                    @endif
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">条件关系</label>

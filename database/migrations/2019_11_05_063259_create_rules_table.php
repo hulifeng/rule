@@ -17,9 +17,10 @@ class CreateRulesTable extends Migration
             $table->bigIncrements('id');
             $table->string('rule_name')->comment('规则名称');
             $table->tinyInteger('excute_item')->default(1)->comment('执行操作项');
-            $table->tinyInteger('excute_action')->default(1)->comment('执行操作条件');
-            $table->unsignedInteger('excute_val')->comment('执行操作项值');
-            $table->boolean('excute_val_type')->default(0)->comment('执行操作项值类型 0, 元 1, 百分值');
+            $table->tinyInteger('excute_action')->nullable()->comment('执行操作条件');
+            $table->tinyInteger('excute_switch')->nullable()->comment('执行操作条件');
+            $table->unsignedInteger('excute_val')->nullable()->comment('执行操作项值');
+            $table->boolean('excute_val_type')->nullable()->default(0)->comment('执行操作项值类型 0, 元 1, 百分值');
             $table->tinyInteger('frequency')->nullable()->comment('执行操作频次');
             $table->tinyInteger('frequency_type')->nullable()->comment('执行操作频次类型');
             $table->unsignedInteger('upper_limit')->nullable()->comment('执行操作上限');

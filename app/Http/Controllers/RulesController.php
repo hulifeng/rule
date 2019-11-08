@@ -47,6 +47,7 @@ class RulesController extends Controller
                 'rule_name' => $request->input('rule_name'),
                 'excute_item' => $request->input('excute_item'),
                 'excute_action' => $request->input('excute_action'),
+                'excute_switch' => $request->input('excute_switch'),
                 'excute_val' => $request->input('excute_val'),
                 'excute_val_type' => $request->input('excute_val_type'),
                 'frequency' => $request->input('frequency'),
@@ -123,10 +124,10 @@ class RulesController extends Controller
             $rule->update($request->only([
                 'rule_name', 'excute_item',
                 'excute_action', 'excute_val',
-                'excute_val_type', 'frequency',
-                'frequency_type', 'upper_limit',
-                'condition_relation', 'notice',
-                'check_time', 'clock'
+                'excute_switch', 'excute_val_type',
+                'frequency', 'frequency_type',
+                'upper_limit', 'condition_relation',
+                'notice', 'check_time', 'clock'
             ]));
 
             $rule->rules()->delete();
