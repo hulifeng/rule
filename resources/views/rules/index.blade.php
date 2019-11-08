@@ -49,7 +49,7 @@
                     , {field: '', title: '操作', templet: function (res) {
                             return '<div class="layui-btn-group">' +
                                 '<a href="/rules/' + res.id + '/edit" class="layui-btn-xs" style="color: #b6adc5;"><i class="fa fa-edit"></i></a>\n' +
-                                '<a type="button" data-id="'+res.id+'"  class="layui-btn-xs" style="color: #b6adc5;" onclick="delete_rule(this)"><i class="fa fa-trash-o"></i></a>\n' +
+                                '<a data-id="'+res.id+'"  class="layui-btn-xs" style="color: #b6adc5; cursor: pointer;" onclick="delete_rule(this)"><i class="fa fa-trash-o"></i></a>\n' +
                                 '</div>';
                         }}
                 ]],
