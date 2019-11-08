@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('AfterCss')
-    <link rel="stylesheet" href="/static/layui/css/layui.css">
+
 @endsection
 
 @section('content')
@@ -132,7 +132,7 @@
                             <label class="layui-form-label">发送通知</label>
                             <div class="layui-input-block">
                                 <input type="checkbox" name="notice" lay-skin="switch" lay-text="发送|不发送">
-                                <p class="help-block layui-word-aux">规则执行成功后，会给您发送通知。您可在 <a style="color: #1E9FFF;" href="javascript:;">消息中心</a> 修改接收对象与通知方式（站内信、短信、邮件）</p>
+                                <p class="help-block layui-word-aux">规则执行成功后，会给您发送通知。您可在 <a style="color: #1E9FFF;" href="javascript:;"><span style="color: #bfadc8;">消息中心</span></a> 修改接收对象与通知方式（站内信、短信、邮件）</p>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -157,7 +157,7 @@
                         </div>
                         <div class="layui-form-item">
                             <div class="layui-input-block">
-                                <button type="submit" class="layui-btn layui-btn-normal" lay-submit="" lay-filter="submit_rule">立即提交</button>
+                                <button type="submit" class="layui-btn rule-purple-bg" lay-submit="" lay-filter="submit_rule">立即提交</button>
                                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                             </div>
                         </div>

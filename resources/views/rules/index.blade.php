@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('AfterCss')
-    <link rel="stylesheet" href="/static/layui/css/layui.css">
     <style>
         .sweetAlert {
             margin-right: 25px;
@@ -20,7 +19,7 @@
                     </span>
                 </div>
                 <div class="layui-card-body">
-                    <a href="{{ route('rules.create') }}" class="layui-btn layui-btn-normal">新建规则</a>
+                    <a href="{{ route('rules.create') }}" class="layui-btn rule-purple-bg">新建规则</a>
                     <table class="layui-table" id="rule_list" lay-filter="rule_list"></table>
                 </div>
             </div>
@@ -29,8 +28,6 @@
 @endsection
 
 @section('AfterJS')
-    <script src="/static/layui/jquery-3.4.1.min.js"></script>
-    <script src="/static/layui/layui.all.js"></script>
     <script>
         layui.use(['table', 'form'], function () {
             var table = layui.table,
@@ -51,8 +48,8 @@
                     , {field: 'created_at', title: '创建时间'}
                     , {field: '', title: '操作', templet: function (res) {
                             return '<div class="layui-btn-group">' +
-                                '<a href="/rules/' + res.id + '/edit" class="layui-btn layui-btn-xs">编辑</a>\n' +
-                                '<button type="button" data-id="'+res.id+'"  class="layui-btn layui-btn-danger layui-btn-xs" onclick="delete_rule(this)">删除</button>\n' +
+                                '<a href="/rules/' + res.id + '/edit" class="layui-btn-xs" style="color: #b6adc5;"><i class="fa fa-edit"></i></a>\n' +
+                                '<a type="button" data-id="'+res.id+'"  class="layui-btn-xs" style="color: #b6adc5;" onclick="delete_rule(this)"><i class="fa fa-trash-o"></i></a>\n' +
                                 '</div>';
                         }}
                 ]],
