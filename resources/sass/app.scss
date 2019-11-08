@@ -1,0 +1,20 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Animate
+@import '~animate.css';
+
+
+.rule-body {
+  padding: 50px 0;
+}
+
+.rule-fluid {
+  max-width: 1800px;
+}
