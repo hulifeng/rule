@@ -26,3 +26,12 @@ Route::get('oauth2', 'OAuthController@index');
 Route::get('getAccessToken', 'OAuthController@getAccessToken');
 
 Route::get('refreshAccessToken', 'OAuthController@refreshAccessToken');
+
+// 更新计划状态
+Route::get('planStatus', 'PlanController@planStatus');
+
+// 更新计划预算
+Route::get('planBudget', 'PlanController@planBudget');
+
+// 更新计划出价
+Route::get('planBid', 'PlanController@planBid');
