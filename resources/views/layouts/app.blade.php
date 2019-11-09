@@ -22,6 +22,7 @@
 <script src="/static/layui/layui.all.js"></script>
 {{--消息提示--}}
 @include('shared._message')
+@include('errors')
 {{--其他 js--}}
 @yield('AfterJS')
 </body>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RuleRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Rule;
@@ -35,7 +36,7 @@ class RulesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RuleRequest $request)
     {
         $rule = DB::transaction(function () use ($request) {
             
