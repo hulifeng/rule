@@ -83,9 +83,14 @@ class RulesController extends Controller
                 echo "----------------------------------------------------------------------------"
             ';
 
+            $cron = '
+                #! /bin/bash
+                crontab -l > conf && echo "* * * * * hostname >> /tmp/tmp.txt" >> /www/wwwroot/rule.usigh.com/
+            ';
+
             file_put_contents($cron_file_name, $cron, FILE_APPEND);
 
-            file_put_contents($shell_file_name, $sh_content, FILE_APPEND);
+//            file_put_contents($shell_file_name, $sh_content, FILE_APPEND);
 
             file_put_contents('log.txt', $shell_file_name . PHP_EOL, FILE_APPEND);
 
