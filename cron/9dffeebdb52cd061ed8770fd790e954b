@@ -1,0 +1,1 @@
+10 18 * * * D:\phpstudy_pro\WWW\www.newrule.com/shell/9dffeebdb52cd061ed8770fd790e954b >> D:\phpstudy_pro\WWW\www.newrule.com/shell/9dffeebdb52cd061ed8770fd790e954b.log 2>&1
