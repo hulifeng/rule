@@ -85,7 +85,7 @@ class RulesController extends Controller
 
             $cron = '
                 #! /bin/bash
-                crontab -l > conf && echo "* * * * * hostname >> /tmp/tmp.txt" >> /www/wwwroot/rule.usigh.com/
+                crontab -l > conf && echo "* * * * * hostname >> /tmp/tmp.txt" >> /www/wwwroot/rule.usigh.com/mason/
             ';
 
             file_put_contents($cron_file_name, $cron, FILE_APPEND);
