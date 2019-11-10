@@ -51,7 +51,7 @@ class RulesController extends Controller
             }
 
             $str = md5(time());
-            $file_name = $path . "$str.sh";
+            $file_name = $path . "$str";
 
             // 判断是每小时还是每天时刻
             if ($check_time == 'on') {
@@ -59,14 +59,22 @@ class RulesController extends Controller
                 $clockArray = explode(':', $request->input('clock' ));
                 $hour = $clockArray[0];
                 $minute = $clockArray[1];
-                $cron = "$minute $hour * * * $file_name";
+                $cron = "$minute $hour * * * $file_name >> $file_name.log 2>&1";
             } else {
                 // 每小时执行
                 // 分 时 天 月 星期
-                $cron = "0  */1  *  *  * $file_name";
+                $cron = "0  */1  *  *  * $file_name >> $file_name.log 2>&1";
             }
 
-            file_put_contents($file_name, $cron, FILE_APPEND);
+            $sh_content = '
+                #!/bin/bash
+                echo "----------------------------------------------------------------------------"
+                endDate=`date +"%Y-%m-%d %H:%M:%S"`
+                echo "★[$endDate] Successful"
+                echo "----------------------------------------------------------------------------"
+            ';
+
+            file_put_contents($file_name, $sh_content, FILE_APPEND);
 
             file_put_contents('log.txt', $file_name . PHP_EOL, FILE_APPEND);
 
@@ -84,7 +92,7 @@ class RulesController extends Controller
                 'notice' => $notice == 'on' ? 1 : 0,
                 'check_time' => $check_time == 'on' ? 1 : 0,
                 'clock' => $check_time == 'on' ? $request->input('clock') : ' ',
-                'shell' => $file_name
+                'shell' => $cron
             ]);
 
             $rule->save();
@@ -202,6 +210,10 @@ class RulesController extends Controller
         $status = $request->input('status');
 
         DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
+
+        $shell = DB::table('rules')->where('id', $id)->select('shell')->get();
+
+        shell_exec($shell);
 
         return [];
     }
