@@ -44,6 +44,32 @@ class RulesController extends Controller
             $check_time = $request->input('check_time');
             $notice = $request->input('notice');
 
+            // 同时生成 shell
+            $path = base_path() . "/shell/";
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $str = md5(time());
+            $file_name = $path . "$str.sh";
+
+            // 判断是每小时还是每天时刻
+            if ($check_time == 'on') {
+                // 自定义时刻
+                $clockArray = explode(':', $request->input('clock' ));
+                $hour = $clockArray[0];
+                $minute = $clockArray[1];
+                $cron = "$minute $hour * * * $file_name";
+            } else {
+                // 每小时执行
+                // 分 时 天 月 星期
+                $cron = "0  */1  *  *  * $file_name";
+            }
+
+            file_put_contents($file_name, $cron, FILE_APPEND);
+
+            file_put_contents('log.txt', $file_name . PHP_EOL, FILE_APPEND);
+
             $rule = new Rule([
                 'rule_name' => $request->input('rule_name'),
                 'excute_item' => $request->input('excute_item'),
@@ -58,6 +84,7 @@ class RulesController extends Controller
                 'notice' => $notice == 'on' ? 1 : 0,
                 'check_time' => $check_time == 'on' ? 1 : 0,
                 'clock' => $check_time == 'on' ? $request->input('clock') : ' ',
+                'shell' => $file_name
             ]);
 
             $rule->save();
@@ -75,6 +102,7 @@ class RulesController extends Controller
                 ]);
                 $item->save();
             }
+
 
             return $rule;
         });

@@ -22,7 +22,8 @@ class RuleRequest extends Request
     {
         return [
           'rule_name.required' => '规则名称不能为空',
-          'rule_name.unique'   => '规则名称已存在'
+          'rule_name.unique'   => '规则名称已存在',
+          'rule_name.between'  => '规则名称字符数必须在3-25的字符之间'
         ];
     }
 }

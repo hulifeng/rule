@@ -9,7 +9,7 @@ class Rule extends Model
     protected $fillable = [
         'rule_name', 'excute_item', 'excute_switch', 'excute_condition', 'excute_val', 'excute_val_type',
         'frequency', 'frequency_type', 'upper_limit', 'condition_relation', 'notice', 'check_time',
-        'clock'
+        'clock', 'shell'
     ];
 
     public function rules()
