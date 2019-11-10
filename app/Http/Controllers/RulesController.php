@@ -66,11 +66,13 @@ class RulesController extends Controller
                 $clockArray = explode(':', $request->input('clock' ));
                 $hour = $clockArray[0];
                 $minute = $clockArray[1];
-                $cron = "$minute $hour * * * $shell_file_name >> $shell_file_name.log 2>&1";
+                $cron = "#! /bin/bash 
+                $minute $hour * * * $shell_file_name >> $shell_file_name.log 2>&1";
             } else {
                 // 每小时执行
                 // 分 时 天 月 星期
-                $cron = "0  */1  *  *  * $shell_file_name >> $shell_file_name.log 2>&1";
+                $cron = "#! /bin/bash
+                0  */1  *  *  * $shell_file_name >> $shell_file_name.log 2>&1";
             }
 
             $sh_content = '

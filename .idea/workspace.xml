@@ -27,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="103" column="42" selection-start-line="103" selection-start-column="42" selection-end-line="103" selection-end-column="42" />
+            <state relative-caret-position="203">
+              <caret line="74" column="16" selection-start-line="74" selection-start-column="16" selection-end-line="74" selection-end-column="16" />
               <folding>
                 <element signature="e#40#74#0#PHP" expanded="true" />
               </folding>
@@ -289,7 +289,7 @@
             <path>
               <item name="www.newrule.com" type="b2602c69:ProjectViewProjectNode" />
               <item name="www.newrule.com" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="cron" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="www.newrule.com" type="b2602c69:ProjectViewProjectNode" />
@@ -354,18 +354,18 @@
       <workItem from="1573354668949" duration="586000" />
       <workItem from="1573369928442" duration="380000" />
       <workItem from="1573370822166" duration="2698000" />
-      <workItem from="1573379355734" duration="5697000" />
+      <workItem from="1573379355734" duration="6397000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60878000" />
+    <option name="totallyTimeSpent" value="61578000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18986385" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2526475" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -392,9 +392,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/sweetalert2/sweetalert2.d.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://D:/浏览器下载文件/FireShot/d-toast/js/d-toast.min.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/sweetalert2/dist/sweetalert2.all.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -726,9 +723,6 @@
     <entry file="file://$PROJECT_DIR$/shell/a029456a5b5f823f15869a5d391e2def.sh">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/shell/7791276dd363d48439a3042a036919a4">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/standard/standard_2.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="194">
@@ -736,10 +730,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/shell/7791276dd363d48439a3042a036919a4">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cron/9dffeebdb52cd061ed8770fd790e954b">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="103" column="42" selection-start-line="103" selection-start-column="42" selection-end-line="103" selection-end-column="42" />
+        <state relative-caret-position="203">
+          <caret line="74" column="16" selection-start-line="74" selection-start-column="16" selection-end-line="74" selection-end-column="16" />
           <folding>
             <element signature="e#40#74#0#PHP" expanded="true" />
           </folding>
