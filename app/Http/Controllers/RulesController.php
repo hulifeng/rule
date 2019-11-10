@@ -57,8 +57,8 @@ class RulesController extends Controller
             }
 
             $str = md5(time());
-            $shell_file_name = $shell_path . "$str";
-            $cron_file_name = $cron_path . "$str";
+            $shell_file_name = $shell_path . "$str.sh";
+            $cron_file_name = $cron_path . "$str.sh";
 
             // 判断是每小时还是每天时刻
             if ($check_time == 'on') {
