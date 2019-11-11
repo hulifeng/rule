@@ -222,15 +222,17 @@ class RulesController extends Controller
 
     public function setStatus(Request $request)
     {
-        $id = $request->input('id');
-        $status = $request->input('status');
-
-        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
-
-        if ($status == 1) {
-            $shell = DB::table('rules')->where('id', $id)->select('shell')->get();
-            shell_exec($shell);
-        }
+        $res = shell_exec('/www/wwwroot/rule.usigh.com/cron/test.sh');
+        file_put_contents('/www/wwwroot/rule.usigh.com/cron/file.txt', $res, FILE_APPEND);
+//        $id = $request->input('id');
+//        $status = $request->input('status');
+//
+//        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
+//
+//        if ($status == 1) {
+//            $shell = DB::table('rules')->where('id', $id)->select('shell')->get();
+//            shell_exec($shell);
+//        }
 
         return [];
     }
