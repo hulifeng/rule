@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0251e2e3-4516-4730-9681-a648dcacad16" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,8 +43,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="78" column="36" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
+            <state relative-caret-position="429">
+              <caret line="235" column="29" selection-start-line="235" selection-start-column="29" selection-end-line="235" selection-end-column="29" />
+              <folding>
+                <element signature="e#6358#7254#0#PHP" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,8 +55,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/web.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="474">
+              <caret line="38" column="48" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -82,7 +87,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>request()</find>
       <find>position</find>
       <find>customClass</find>
       <find>animation</find>
@@ -112,6 +116,7 @@
       <find>event</find>
       <find>setStatus</find>
       <find>store(</find>
+      <find>show($id</find>
     </findStrings>
     <replaceStrings>
       <replace>$request</replace>
@@ -154,7 +159,6 @@
         <option value="$PROJECT_DIR$/storage/logs/laravel-2019-11-09.log" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/errors.blade.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PlanController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/TimingController.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/RuleRequest.php" />
@@ -165,6 +169,8 @@
         <option value="$PROJECT_DIR$/.env.example" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$USER_HOME$/Desktop/robot.sh" />
+        <option value="D:/software/finalshell/temp/edit/腾讯云_.sudoers" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" />
       </list>
     </option>
@@ -347,12 +353,12 @@
       <workItem from="1573379355734" duration="8199000" />
       <workItem from="1573453109387" duration="1768000" />
       <workItem from="1573468644296" duration="8704000" />
-      <workItem from="1573522787172" duration="8338000" />
+      <workItem from="1573522787172" duration="14186000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82190000" />
+    <option name="totallyTimeSpent" value="88038000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="268" y="111" width="1537" height="854" extended-state="0" />
@@ -385,7 +391,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/views/rules/test.blade.php" />
     <entry file="file://$PROJECT_DIR$/resources/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="434">
@@ -630,13 +635,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/rules/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1741">
@@ -648,10 +646,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://D:/software/finalshell/temp/edit/腾讯云_.sudoers">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="93" column="2" lean-forward="true" selection-start-line="93" selection-start-column="2" selection-end-line="93" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="38" column="48" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="78" column="36" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
+        <state relative-caret-position="429">
+          <caret line="235" column="29" selection-start-line="235" selection-start-column="29" selection-end-line="235" selection-end-column="29" />
+          <folding>
+            <element signature="e#6358#7254#0#PHP" />
+          </folding>
         </state>
       </provider>
     </entry>

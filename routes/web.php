@@ -35,3 +35,5 @@ Route::get('planBudget', 'PlanController@planBudget');
 
 // 更新计划出价
 Route::get('planBid', 'PlanController@planBid');
+
+Route::write('write', 'RulesController@write_log');

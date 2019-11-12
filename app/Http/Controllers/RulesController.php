@@ -51,12 +51,6 @@ class RulesController extends Controller
                 mkdir($shell_path, 0777, true);
             }
 
-            // 生成 cron 路径文件
-            $cron_path = base_path() . "/cron/";
-            if (!file_exists($cron_path)) {
-                mkdir($cron_path, 0777, true);
-            }
-
             // 判断是每小时还是每天时刻
             if ($check_time == 'on') {
                 // 自定义时刻
@@ -82,7 +76,7 @@ class RulesController extends Controller
             ];
 
             $rule = new Rule([
-                'rule_name' => $request->input('rule_name'),
+                'rule_name' => $request->input('rule_ame'),
                 'excute_item' => $request->input('excute_item'),
                 'excute_action' => $request->input('excute_action'),
                 'excute_switch' => $request->input('excute_switch'),
@@ -237,5 +231,10 @@ class RulesController extends Controller
 //        }
 //
 //        return [];
+    }
+
+    public function write_log()
+    {
+        file_put_contents('/www/wwwroot/rule.usigh.com/cron/mason.txt', date('Y-m-d H:i:s', time() . '执行了' . PHP_EOL, FILE_APPEND));
     }
 }
