@@ -65,12 +65,12 @@ class RulesController extends Controller
             }
 
             $str = md5(time());
-            $shell_file_name = $shell_path . "$str.sh";
+            $shell_file_name = $shell_path . "$str";
 
-            file_put_contents($shell_file_name, 'sh date >> /www/wwwroot/rule.usigh.com/cron/mason.txt');
+            file_put_contents($shell_file_name, 'date >> /www/wwwroot/rule.usigh.com/cron/mason.txt');
 
             $json = [
-                'shell' => "$str.sh",
+                'shell' => "$str",
                 'hour' => $hour,
                 'minute' => $minute
             ];
@@ -217,15 +217,10 @@ class RulesController extends Controller
 
             $minute = $shell_command->minute;
 
-            dd(shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $minute $hour 2>&1"));
+            shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $minute $hour 2>&1");
         }
 
         DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
-
-        if ($status == 1) {
-            $shell = DB::table('rules')->where('id', $id)->select('shell')->get();
-            shell_exec($shell);
-        }
 
         return [];
     }
