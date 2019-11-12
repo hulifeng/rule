@@ -67,7 +67,7 @@ class RulesController extends Controller
             $str = md5(time());
             $shell_file_name = $shell_path . "$str.sh";
 
-            file_put_contents($shell_file_name, 'curl http://rule.usigh.com/write');
+            file_put_contents($shell_file_name, 'date >> /www/wwwroot/rule.usigh.com/cron/mason.txt');
 
             $json = [
                 'shell' => "$str.sh",
