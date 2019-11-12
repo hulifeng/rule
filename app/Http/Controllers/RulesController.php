@@ -76,7 +76,7 @@ class RulesController extends Controller
             ];
 
             $rule = new Rule([
-                'rule_name' => $request->input('rule_ame'),
+                'rule_name' => $request->input('rule_name'),
                 'excute_item' => $request->input('excute_item'),
                 'excute_action' => $request->input('excute_action'),
                 'excute_switch' => $request->input('excute_switch'),
