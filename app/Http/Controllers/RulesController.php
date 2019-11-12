@@ -220,18 +220,13 @@ class RulesController extends Controller
             dd(shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $minute $hour 2>&1"));
         }
 
-//        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
-//
-//        if ($status == 1) {
-//            $shell = DB::table('rules')->where('id', $id)->select('shell')->get();
-//            shell_exec($shell);
-//        }
-//
-//        return [];
-    }
+        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
 
-    public function write_log()
-    {
-        file_put_contents('/www/wwwroot/rule.usigh.com/cron/mason.txt', date('Y-m-d H:i:s', time() . '执行了' . PHP_EOL, FILE_APPEND));
+        if ($status == 1) {
+            $shell = DB::table('rules')->where('id', $id)->select('shell')->get();
+            shell_exec($shell);
+        }
+
+        return [];
     }
 }
