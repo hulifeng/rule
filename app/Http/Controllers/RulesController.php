@@ -76,7 +76,7 @@ class RulesController extends Controller
             file_put_contents($shell_file_name, 'curl http://rule.usigh.com/write');
 
             $json = [
-                'shell' => $shell_file_name,
+                'shell' => "$str.sh",
                 'hour' => $hour,
                 'minute' => $minute
             ];
@@ -226,7 +226,7 @@ class RulesController extends Controller
 
             $minute = $shell_command->minute;
 
-            dd(shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $hour $minute 2>&1"));
+            dd(shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $minute $hour 2>&1"));
         }
 //
 //        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);

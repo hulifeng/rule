@@ -41,8 +41,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="69" column="33" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
+            <state relative-caret-position="426">
+              <caret line="78" column="36" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -110,8 +110,8 @@
       <find>info()</find>
       <find>index(</find>
       <find>event</find>
-      <find>store(</find>
       <find>setStatus</find>
+      <find>store(</find>
     </findStrings>
     <replaceStrings>
       <replace>$request</replace>
@@ -347,12 +347,12 @@
       <workItem from="1573379355734" duration="8199000" />
       <workItem from="1573453109387" duration="1768000" />
       <workItem from="1573468644296" duration="8704000" />
-      <workItem from="1573522787172" duration="7050000" />
+      <workItem from="1573522787172" duration="8338000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80902000" />
+    <option name="totallyTimeSpent" value="82190000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="268" y="111" width="1537" height="854" extended-state="0" />
@@ -650,8 +650,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="69" column="33" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
+        <state relative-caret-position="426">
+          <caret line="78" column="36" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="36" />
         </state>
       </provider>
     </entry>
