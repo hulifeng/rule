@@ -66,8 +66,8 @@ class RulesController extends Controller
             } else {
                 // 每小时执行
                 // 分 时 天 月 星期
-                $hour = '*/';
-                $minute = '*';
+                $hour = 'per_hour';
+                $minute = 'normal';
             }
 
             $str = md5(time());
@@ -207,15 +207,18 @@ class RulesController extends Controller
         return [];
     }
 
-    public function setStatus(Request $request)
+    public function setStatus()
     {
-        $id = $request->input('id');
-        $status = $request->input('status');
+        // $id = $request->input('id');
+        // $status = $request->input('status');
+
+        $id = 1;
+        $status = 1;
 
         if ($status == 1) {
-            $ruleInfo = DB::where("id", $id)->select('shell')->get();
+            $ruleInfo = DB::table('rules')->where("id", $id)->select('shell')->get();
 
-            $shell_command = json_decode($ruleInfo);
+            $shell_command = json_decode($ruleInfo[0]->shell);
 
             $shell = $shell_command->shell;
 
@@ -223,7 +226,7 @@ class RulesController extends Controller
 
             $minute = $shell_command->minute;
 
-            shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $hour $minute");
+            dd(shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $hour $minute 2>&1"));
         }
 //
 //        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
