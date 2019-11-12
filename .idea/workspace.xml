@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0251e2e3-4516-4730-9681-a648dcacad16" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,20 +38,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="203" column="46" selection-start-line="203" selection-start-column="46" selection-end-line="203" selection-end-column="46" />
+            <state relative-caret-position="62">
+              <caret line="210" lean-forward="true" selection-start-line="210" selection-end-line="210" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/web.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="474">
-              <caret line="38" column="48" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="48" />
+              <caret line="38" column="10" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -165,8 +165,8 @@
         <option value="$PROJECT_DIR$/.env" />
         <option value="$USER_HOME$/Desktop/robot.sh" />
         <option value="D:/software/finalshell/temp/edit/腾讯云_.sudoers" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
       </list>
     </option>
   </component>
@@ -348,12 +348,12 @@
       <workItem from="1573379355734" duration="8199000" />
       <workItem from="1573453109387" duration="1768000" />
       <workItem from="1573468644296" duration="8704000" />
-      <workItem from="1573522787172" duration="14260000" />
+      <workItem from="1573522787172" duration="14362000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88112000" />
+    <option name="totallyTimeSpent" value="88214000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="268" y="111" width="1537" height="854" extended-state="0" />
@@ -648,17 +648,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="38" column="48" selection-start-line="38" selection-start-column="39" selection-end-line="38" selection-end-column="48" />
+        <state relative-caret-position="62">
+          <caret line="210" lean-forward="true" selection-start-line="210" selection-end-line="210" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="203" column="46" selection-start-line="203" selection-start-column="46" selection-end-line="203" selection-end-column="46" />
+        <state relative-caret-position="474">
+          <caret line="38" column="10" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
         </state>
       </provider>
     </entry>
