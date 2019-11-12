@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0251e2e3-4516-4730-9681-a648dcacad16" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,11 +41,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="235" column="29" selection-start-line="235" selection-start-column="29" selection-end-line="235" selection-end-column="29" />
-              <folding>
-                <element signature="e#6358#7254#0#PHP" />
-              </folding>
+            <state relative-caret-position="31">
+              <caret line="203" column="46" selection-start-line="203" selection-start-column="46" selection-end-line="203" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -353,12 +348,12 @@
       <workItem from="1573379355734" duration="8199000" />
       <workItem from="1573453109387" duration="1768000" />
       <workItem from="1573468644296" duration="8704000" />
-      <workItem from="1573522787172" duration="14186000" />
+      <workItem from="1573522787172" duration="14260000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88038000" />
+    <option name="totallyTimeSpent" value="88112000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="268" y="111" width="1537" height="854" extended-state="0" />
@@ -662,11 +657,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RulesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="235" column="29" selection-start-line="235" selection-start-column="29" selection-end-line="235" selection-end-column="29" />
-          <folding>
-            <element signature="e#6358#7254#0#PHP" />
-          </folding>
+        <state relative-caret-position="31">
+          <caret line="203" column="46" selection-start-line="203" selection-start-column="46" selection-end-line="203" selection-end-column="46" />
         </state>
       </provider>
     </entry>

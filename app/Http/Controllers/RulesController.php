@@ -201,13 +201,10 @@ class RulesController extends Controller
         return [];
     }
 
-    public function setStatus()
+    public function setStatus(Request $request)
     {
-        // $id = $request->input('id');
-        // $status = $request->input('status');
-
-        $id = 1;
-        $status = 1;
+         $id = $request->input('id');
+         $status = $request->input('status');
 
         if ($status == 1) {
             $ruleInfo = DB::table('rules')->where("id", $id)->select('shell')->get();
@@ -222,7 +219,7 @@ class RulesController extends Controller
 
             dd(shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $minute $hour 2>&1"));
         }
-//
+
 //        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
 //
 //        if ($status == 1) {
