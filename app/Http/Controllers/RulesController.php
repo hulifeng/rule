@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RuleRequest;
 use Carbon\Carbon;
+use function GuzzleHttp\Promise\queue;
 use Illuminate\Http\Request;
 use App\Models\Rule;
 use Illuminate\Support\Facades\DB;
@@ -56,43 +57,29 @@ class RulesController extends Controller
                 mkdir($cron_path, 0777, true);
             }
 
-            $str = md5(time());
-            $shell_file_name = $shell_path . "$str.sh";
-            $cron_file_name = $cron_path . "$str.sh";
-
             // 判断是每小时还是每天时刻
             if ($check_time == 'on') {
                 // 自定义时刻
                 $clockArray = explode(':', $request->input('clock' ));
                 $hour = $clockArray[0];
                 $minute = $clockArray[1];
-                $cron = "#! /bin/bash 
-                $minute $hour * * * $shell_file_name >> $shell_file_name.log 2>&1";
             } else {
                 // 每小时执行
                 // 分 时 天 月 星期
-                $cron = "#! /bin/bash
-                0  */1  *  *  * $shell_file_name >> $shell_file_name.log 2>&1";
+                $hour = '*/';
+                $minute = '*';
             }
 
-            $sh_content = '
-                #!/bin/bash
-                echo "----------------------------------------------------------------------------"
-                endDate=`date +"%Y-%m-%d %H:%M:%S"`
-                echo "★[$endDate] Successful"
-                echo "----------------------------------------------------------------------------"
-            ';
+            $str = md5(time());
+            $shell_file_name = $shell_path . "$str.sh";
 
-            $cron = '
-                #! /bin/bash
-                crontab -l > conf && echo "* * * * * hostname >> /tmp/tmp.txt" >> /www/wwwroot/rule.usigh.com/mason/
-            ';
+            file_put_contents($shell_file_name, 'curl http://rule.usigh.com/write');
 
-            file_put_contents($cron_file_name, $cron, FILE_APPEND);
-
-//            file_put_contents($shell_file_name, $sh_content, FILE_APPEND);
-
-            file_put_contents('log.txt', $shell_file_name . PHP_EOL, FILE_APPEND);
+            $json = [
+                'shell' => $shell_file_name,
+                'hour' => $hour,
+                'minute' => $minute
+            ];
 
             $rule = new Rule([
                 'rule_name' => $request->input('rule_name'),
@@ -108,7 +95,7 @@ class RulesController extends Controller
                 'notice' => $notice == 'on' ? 1 : 0,
                 'check_time' => $check_time == 'on' ? 1 : 0,
                 'clock' => $check_time == 'on' ? $request->input('clock') : ' ',
-                'shell' => $cron_file_name
+                'shell' => json_encode($json, JSON_UNESCAPED_UNICODE)
             ]);
 
             $rule->save();
@@ -222,10 +209,22 @@ class RulesController extends Controller
 
     public function setStatus(Request $request)
     {
-        $res = shell_exec('/www/wwwroot/rule.usigh.com/cron/test.sh');
-        file_put_contents('/www/wwwroot/rule.usigh.com/cron/file.txt', $res, FILE_APPEND);
-//        $id = $request->input('id');
-//        $status = $request->input('status');
+        $id = $request->input('id');
+        $status = $request->input('status');
+
+        if ($status == 1) {
+            $ruleInfo = DB::where("id", $id)->select('shell')->get();
+
+            $shell_command = json_decode($ruleInfo);
+
+            $shell = $shell_command->shell;
+
+            $hour = $shell_command->hour;
+
+            $minute = $shell_command->minute;
+
+            shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $hour $minute");
+        }
 //
 //        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
 //
@@ -233,7 +232,7 @@ class RulesController extends Controller
 //            $shell = DB::table('rules')->where('id', $id)->select('shell')->get();
 //            shell_exec($shell);
 //        }
-
-        return [];
+//
+//        return [];
     }
 }
