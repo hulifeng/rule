@@ -206,19 +206,20 @@ class RulesController extends Controller
          $id = $request->input('id');
          $status = $request->input('status');
 
-        if ($status == 1) {
-            $ruleInfo = DB::table('rules')->where("id", $id)->select('shell')->get();
+        $ruleInfo = DB::table('rules')->where("id", $id)->select('shell')->get();
 
-            $shell_command = json_decode($ruleInfo[0]->shell);
+        $shell_command = json_decode($ruleInfo[0]->shell);
 
-            $shell = $shell_command->shell;
+        $shell = $shell_command->shell;
 
-            $hour = $shell_command->hour;
+        $hour = $shell_command->hour;
 
-            $minute = $shell_command->minute;
+        $minute = $shell_command->minute;
 
-            shell_exec("php /www/wwwroot/rule.usigh.com/test.php start $shell $minute $hour 2>&1");
-        }
+        $command = 'stop';
+        if ($status == 1) $command = 'start';
+        
+        shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $hour 2>&1");
 
         DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
 
