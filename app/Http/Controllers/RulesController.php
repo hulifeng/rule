@@ -223,9 +223,11 @@ class RulesController extends Controller
          $id = $request->input('id');
          $status = $request->input('status');
 
-         $ruleInfo = DB::table('rules')->where("id", $id)->select('shell')->get();
+         $ruleInfo = DB::table('rules')->where("id", $id)->select('shell', 'acid')->get();
 
          $shell_command = json_decode($ruleInfo[0]->shell);
+
+         $acid = $ruleInfo[0]->acid;
 
          $shell = $shell_command->shell;
 
@@ -236,7 +238,7 @@ class RulesController extends Controller
          $command = 'stop';
          if ($status == 1) $command = 'start';
 
-         shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $hour 2>&1");
+         shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $hour $acid 2>&1");
 
          DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
 
