@@ -44,3 +44,6 @@ Route::get('planList', 'PlanController@planList');
 
 // 获取多个一数据报表
 Route::get('manyWithSimple', 'TimingController@manyWithSimple');
+
+// 测试发送 post 请求
+Route::get('executes/{execute}', 'TimingController@executeRequest')->where(['execute' => '[0-9a-z]+']);
