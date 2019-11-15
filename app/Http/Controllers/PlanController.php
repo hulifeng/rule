@@ -7,6 +7,20 @@ use Zttp\Zttp;
 
 class PlanController extends Controller
 {
+    public function planList()
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/ad/get/';
+
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            "Access-Token" => '6637583dcd8b302e50636352a576bfad50647547'
+        ])->get($url, [
+            'advertiser_id' => '2326195257476781', // 广告主 ID
+        ]);
+
+        return $response->json();
+    }
+
     // 更改计划状态
     public function planStatus()
     {
@@ -56,9 +70,9 @@ class PlanController extends Controller
             'Access-Token' => 'c5eaff979b8fe280a7cd936f393d9f8133488697'
         ])->post($url, [
             'advertiser_id' => '2326195257476781', // 广告主 ID
-            'data'          => [[
+            'data' => [[
                 'ad_id' => '1648175051387916',
-                'bid'=> '2.50'
+                'bid' => '2.50'
             ]]
         ]);
 

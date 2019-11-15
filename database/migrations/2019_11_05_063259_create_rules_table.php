@@ -15,6 +15,7 @@ class CreateRulesTable extends Migration
     {
         Schema::create('rules', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('acid')->default('')->comment('唯一标志');
             $table->string('rule_name')->comment('规则名称');
             $table->tinyInteger('excute_item')->default(1)->comment('执行操作项');
             $table->tinyInteger('excute_action')->nullable()->comment('执行操作条件');
@@ -30,6 +31,7 @@ class CreateRulesTable extends Migration
             $table->boolean('check_time')->default(0)->comment('检查时间 0, 每小时 1,每天');
             $table->string('clock')->nullable()->comment('检查时刻');
             $table->boolean('status')->default(0)->comment('规则开启状态 1, 开启');
+            $table->string('shell')->default('');
             $table->boolean('is_del')->default(0)->comment('是否删除 1, 删除 0, 正常');
             $table->timestamps();
         });

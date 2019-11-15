@@ -233,7 +233,7 @@
                     html = '<div class="layui-inline">\n' +
                         '                                        <label class="layui-form-label">动作</label>\n' +
                         '                                        <div class="layui-input-inline">\n' +
-                        '                                            <select name="excute_action[]" lay-filter="excute_action" id="excute_action">\n' +
+                        '                                            <select name="excute_action" lay-filter="excute_action" id="excute_action">\n' +
                         '                                                <option value="1">调整至</option>\n' +
                         '                                                <option value="2">提高</option>\n' +
                         '                                                <option value="3">降低</option>\n' +
@@ -259,7 +259,7 @@
                         '                                    <div class="layui-inline">\n' +
                         '                                        <label class="layui-form-label">动作</label>\n' +
                         '                                        <div class="layui-input-inline">\n' +
-                        '                                            <select name="excute_action[]" lay-filter="excute_action" id="excute_action">\n' +
+                        '                                            <select name="excute_action" lay-filter="excute_action" id="excute_action">\n' +
                         '                                                <option value="1">调整至</option>\n' +
                         '                                                <option value="2">提高</option>\n' +
                         '                                            </select>\n' +

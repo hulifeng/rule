@@ -35,3 +35,12 @@ Route::get('planBudget', 'PlanController@planBudget');
 
 // 更新计划出价
 Route::get('planBid', 'PlanController@planBid');
+
+// 测试
+Route::get('check', 'TimingController@check');
+
+// 获取广告计划列表
+Route::get('planList', 'PlanController@planList');
+
+// 获取多个一数据报表
+Route::get('manyWithSimple', 'TimingController@manyWithSimple');

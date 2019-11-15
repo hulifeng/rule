@@ -64,7 +64,7 @@ class RulesController extends Controller
                 $minute = 'normal';
             }
 
-            $str = md5(time());
+            $str = make_grid();
             $shell_file_name = $shell_path . "$str";
 
             file_put_contents($shell_file_name, 'date >> /www/wwwroot/rule.usigh.com/cron/mason.txt');
@@ -76,6 +76,7 @@ class RulesController extends Controller
             ];
 
             $rule = new Rule([
+                'acid' => $str, // 生成唯一标志
                 'rule_name' => $request->input('rule_name'),
                 'excute_item' => $request->input('excute_item'),
                 'excute_action' => $request->input('excute_action'),
@@ -155,13 +156,29 @@ class RulesController extends Controller
             $request['check_time'] = $request->input('check_time') == 'on' ? 1 : 0;
             $request['clock'] = $request['check_time'] ? $request->input('clock') : ' ';
 
+            // 判断是每小时还是每天时刻
+            if ($request['check_time'] == '1') {
+                // 自定义时刻
+                $clockArray = explode(':', $request->input('clock'));
+                $hour = $clockArray[0];
+                $minute = $clockArray[1];
+            } else {
+                // 每小时执行
+                // 分 时 天 月 星期
+                $hour = 'per_hour';
+                $minute = 'normal';
+            }
+
+            $request['shell'] = json_encode([
+                'shell' => $rule->acid,
+                'hour' => $hour,
+                'minute' => $minute
+            ]);
+
             $rule->update($request->only([
-                'rule_name', 'excute_item',
-                'excute_action', 'excute_val',
-                'excute_switch', 'excute_val_type',
-                'frequency', 'frequency_type',
-                'upper_limit', 'condition_relation',
-                'notice', 'check_time', 'clock'
+                'acid', 'rule_name', 'excute_item', 'excute_switch', 'excute_condition', 'excute_val', 'excute_val_type',
+                'frequency', 'frequency_type', 'upper_limit', 'condition_relation', 'notice', 'check_time',
+                'clock', 'shell', 'excute_action'
             ]));
 
             $rule->rules()->delete();
@@ -206,23 +223,23 @@ class RulesController extends Controller
          $id = $request->input('id');
          $status = $request->input('status');
 
-        $ruleInfo = DB::table('rules')->where("id", $id)->select('shell')->get();
+         $ruleInfo = DB::table('rules')->where("id", $id)->select('shell')->get();
 
-        $shell_command = json_decode($ruleInfo[0]->shell);
+         $shell_command = json_decode($ruleInfo[0]->shell);
 
-        $shell = $shell_command->shell;
+         $shell = $shell_command->shell;
 
-        $hour = $shell_command->hour;
+         $hour = $shell_command->hour;
 
-        $minute = $shell_command->minute;
+         $minute = $shell_command->minute;
 
-        $command = 'stop';
-        if ($status == 1) $command = 'start';
-        
-        shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $hour 2>&1");
+         $command = 'stop';
+         if ($status == 1) $command = 'start';
 
-        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
+         shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $hour 2>&1");
 
-        return [];
+         DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
+
+         return [];
     }
 }
