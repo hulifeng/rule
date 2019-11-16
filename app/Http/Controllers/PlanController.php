@@ -24,7 +24,7 @@ class PlanController extends Controller
     // 更改计划状态
     public function planStatus()
     {
-        $access_token = '8eb711992fa68da5f82b90d82323a67b09ca24a1';
+        $access_token = 'e010c9c97b01fb033cc0a2eb416b45ad462488a4';
         $url = 'https://ad.toutiao.com/open_api/2/ad/update/status/';
 
         $response = Zttp::withHeaders([
@@ -32,8 +32,8 @@ class PlanController extends Controller
             "Access-Token" => $access_token
         ])->post($url, [
             'advertiser_id' => '2326195257476781', // 广告主 ID
-            'ad_ids'        => ['1648175051387916'], // 计划ID
-            'opt_status'    => 'enable'
+            'ad_ids'        => ['1650343204111422'], // 计划ID
+            'opt_status'    => 'disable'
         ]);
 
         return $response->json();

@@ -10,8 +10,8 @@
             <div class="layui-card">
                 <div class="layui-card-header">
                         <span class="layui-breadcrumb">
-                          <a href="{{route('rules.index')}}">规则列表</a>
-                          <a href="{{route('rules.create')}}"><cite>新建规则</cite></a>
+                          <a href="{{route('rules.index')}}">AI命令列表</a>
+                          <a href="{{route('rules.edit', $rule->id)}}"><cite>编辑AI命令</cite></a>
                         </span>
                 </div>
                 <div class="layui-card-body">
@@ -273,7 +273,7 @@
                         </div>
                         <!--选择时间框-->
                         <div class="layui-form-item" style="width: 295px;">
-                            <label class="layui-form-label">规则名称</label>
+                            <label class="layui-form-label">命令名称</label>
                             <div class="layui-input-block">
                                 <input type="text" name="rule_name" value="{{ $rule->rule_name }}" class="layui-input"
                                        lay-verify="rule_name">

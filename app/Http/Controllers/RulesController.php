@@ -8,6 +8,7 @@ use function GuzzleHttp\Promise\queue;
 use Illuminate\Http\Request;
 use App\Models\Rule;
 use Illuminate\Support\Facades\DB;
+use Zttp\Zttp;
 
 class RulesController extends Controller
 {
@@ -28,7 +29,30 @@ class RulesController extends Controller
      */
     public function create()
     {
-        return view('rules.create');
+        // 获取所有计划列表
+        $url = 'https://ad.oceanengine.com/open_api/2/ad/get/';
+
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => 'e010c9c97b01fb033cc0a2eb416b45ad462488a4'
+        ])->get($url, [
+            "advertiser_id" => env('AD_ADVERTISER_ID')
+        ]);
+
+        $planList = $response->json()['data']['list'];
+
+        // 获取创意列表
+        $url = 'https://ad.oceanengine.com/open_api/2/creative/get/';
+
+        $response2 = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => 'e010c9c97b01fb033cc0a2eb416b45ad462488a4'
+        ])->get($url, [
+            "advertiser_id" => env('AD_ADVERTISER_ID')
+        ]);
+
+//        return view('rules.create', compact('planList'));
+        return view('rules.create_new', compact('planList'));
     }
 
     /**

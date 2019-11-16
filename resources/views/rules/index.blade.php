@@ -14,12 +14,12 @@
             <div class="layui-card">
                 <div class="layui-card-header">
                     <span class="layui-breadcrumb">
-                      <a href="{{ route('rules.index') }}"><cite>规则列表</cite></a>
-                      <a href="{{ route('rules.create') }}">新建规则</a>
+                      <a href="{{ route('rules.index') }}"><cite>AI命令列表</cite></a>
+                      <a href="{{ route('rules.create') }}">添加AI命令</a>
                     </span>
                 </div>
                 <div class="layui-card-body">
-                    <a href="{{ route('rules.create') }}" class="layui-btn rule-purple-bg">新建规则</a>
+                    <a href="{{ route('rules.create') }}" class="layui-btn rule-purple-bg">添加AI命令</a>
                     <table class="layui-table" id="rule_list" lay-filter="rule_list"></table>
                 </div>
             </div>
@@ -43,8 +43,8 @@
                             return '<div><input type="checkbox" data-id="' + res.id + '" ' + _checked + ' lay-filter="run" name="switch" lay-skin="switch" lay-text="ON|OFF"></div>';
                         }
                     }
-                    , {field: 'rule_name', title: '规则名称'}
-                    , {field: 'id', title: '规则ID'}
+                    , {field: 'rule_name', title: '命令名称'}
+                    , {field: 'id', title: '命令ID'}
                     , {field: 'created_at', title: '创建时间'}
                     , {field: '', title: '操作', templet: function (res) {
                             return '<div class="layui-btn-group">' +
@@ -80,7 +80,7 @@
             var id = $(obj).data('id');
 
             Swal.fire({
-                title: "您确定要删除该规则吗？",
+                title: "您确定要删除该命令吗？",
                 icon: 'warning',
                 text: "删除后将无法恢复，请谨慎操作！",
                 confirmButtonColor: '#3085d6',// 确定按钮的 颜色

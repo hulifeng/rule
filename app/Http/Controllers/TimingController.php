@@ -16,7 +16,7 @@ class TimingController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'd1eedfe6639fb5687f26480f576a253c07b852da'
+            'Access-Token' => 'e010c9c97b01fb033cc0a2eb416b45ad462488a4'
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID'),
             "start_date" => '2019-10-23',
@@ -25,7 +25,7 @@ class TimingController extends Controller
         ]);
 
         $planList = $response->json();
-        dd($planList);
+        return $planList;
 
         foreach ($planList['data']['list'] as $v) {
             $cost = $v['cost']; // 消耗
