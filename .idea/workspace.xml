@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0251e2e3-4516-4730-9681-a648dcacad16" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/images/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/rules/create_new.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PlanController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PlanController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RulesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/TimingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/TimingController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/public/.htaccess" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/rules/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/rules/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/rules/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/rules/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/rules/create_new.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/rules/create_new.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,8 +32,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/rules/create_new.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1204">
-              <caret line="86" column="38" selection-start-line="86" selection-start-column="38" selection-end-line="86" selection-end-column="38" />
+            <state relative-caret-position="340">
+              <caret line="284" column="38" selection-start-line="284" selection-start-column="38" selection-end-line="284" selection-end-column="38" />
               <folding>
                 <element signature="e#666#693#0#HTML" expanded="true" />
                 <element signature="e#2625#2646#0#HTML" expanded="true" />
@@ -453,12 +441,12 @@
       <workItem from="1573715504521" duration="19802000" />
       <workItem from="1573783186091" duration="18460000" />
       <workItem from="1573868088506" duration="588000" />
-      <workItem from="1573869024820" duration="32434000" />
+      <workItem from="1573869024820" duration="32555000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="169554000" />
+    <option name="totallyTimeSpent" value="169675000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -779,8 +767,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/rules/create_new.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1204">
-          <caret line="86" column="38" selection-start-line="86" selection-start-column="38" selection-end-line="86" selection-end-column="38" />
+        <state relative-caret-position="340">
+          <caret line="284" column="38" selection-start-line="284" selection-start-column="38" selection-end-line="284" selection-end-column="38" />
           <folding>
             <element signature="e#666#693#0#HTML" expanded="true" />
             <element signature="e#2625#2646#0#HTML" expanded="true" />

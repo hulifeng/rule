@@ -218,8 +218,6 @@
                     '                                    </div>\n' +
                     '                                </div>';
                     $('#condition').html(html);
-
-                    form.render('select');
                 } else if (data.value == 2) {
                     // 出价无量走效果
                     $('.template_1').addClass('layui-hide');
@@ -284,6 +282,7 @@
                     $('.template_2').addClass('layui-hide');
                     $('#template_main').addClass('layui-hide');
                 }
+                form.render('select');
             });
 
         });
