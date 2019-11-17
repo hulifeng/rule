@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Rule extends Model
 {
     protected $fillable = [
-        'acid', 'rule_name', 'excute_item', 'excute_switch', 'excute_condition', 'excute_val', 'excute_val_type',
-        'frequency', 'frequency_type', 'upper_limit', 'condition_relation', 'notice', 'check_time',
-        'clock', 'shell', 'excute_action'
+        'acid', 'rule_name', 'rule_object', 'rule_policy',
+        'ad_id', 'execute_item', 'execute_condition',
+        'execute_val', 'clock', 'frequency', 'shell'
     ];
 
     public function rules()

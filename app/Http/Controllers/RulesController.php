@@ -34,24 +34,13 @@ class RulesController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'e010c9c97b01fb033cc0a2eb416b45ad462488a4'
+            'Access-Token' => '24058451bc963ff7eb8c8bd0504f089c35acef3a'
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID')
         ]);
 
         $planList = $response->json()['data']['list'];
 
-        // 获取创意列表
-        $url = 'https://ad.oceanengine.com/open_api/2/creative/get/';
-
-        $response2 = Zttp::withHeaders([
-            'Content-Type' => 'application/json',
-            'Access-Token' => 'e010c9c97b01fb033cc0a2eb416b45ad462488a4'
-        ])->get($url, [
-            "advertiser_id" => env('AD_ADVERTISER_ID')
-        ]);
-
-//        return view('rules.create', compact('planList'));
         return view('rules.create_new', compact('planList'));
     }
 
@@ -142,15 +131,65 @@ class RulesController extends Controller
         return redirect()->route('rules.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function store_new(RuleRequest $request)
     {
-        //
+        // 开启事务
+        DB::beginTransaction();
+
+        $policy = $request->policy; // 策略模板
+        $rule_object = $request->rule_object; // 应用对象 ①：所有计划 ②：指定计划（需计划ID）
+        $clock = $request->clock;
+        $items = $request->item;
+        $conditions = $request->condition;
+        $val1s = $request->val1;
+        $val2s = $request->val2;
+
+        $str = make_grid();
+
+        // 同时生成 shell
+        $shell_path = base_path() . "/shell/";
+        if (!file_exists($shell_path)) {
+            mkdir($shell_path, 0777, true);
+        }
+
+        $json = [
+            'shell' => "$str",
+            'clock' => $clock
+        ];
+
+        $rule = new Rule([
+            'acid' => $str, // 生成唯一标志
+            'clock' => $request->clock, // 时刻每小时多少分钟执行
+            'rule_name' => $request->rule_name, // 规则名称
+            'rule_object' => $rule_object, // 应用对象
+            'rule_policy' => $policy, // 策略模板
+            'execute_item' => $request->execute_item, // 执行项
+            'execute_condition' => $request->execute_condition, // 执行条件
+            'execute_val' => $request->execute_val, // 执行值
+            'shell' => json_encode($json, JSON_UNESCAPED_UNICODE)
+        ]);
+
+        $ruleID = $rule->save();
+
+        foreach ($items as $k => $v) {
+            $item = $rule->rules()->make([
+                'item' => $v,
+                'condition' => $conditions[$k],
+                'val1' => $val1s[$k],
+                'val2' => $val2s[$k]
+            ]);
+            $item->save();
+        }
+
+        if ($ruleID) {
+            DB::commit();
+        } else {
+            DB::rollBack();
+        }
+
+        session()->flash('success', '规则创建成功！');
+
+        return redirect()->route('rules.index');
     }
 
     /**

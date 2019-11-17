@@ -47,3 +47,8 @@ Route::get('manyWithSimple', 'TimingController@manyWithSimple');
 
 // 测试发送 post 请求
 Route::get('executes/{execute}', 'TimingController@executeRequest')->where(['execute' => '[0-9a-z]+']);
+
+// 新版本提交请求
+Route::post('rules', 'RulesController@store_new')->name('rules.store_new');
+
+Route::get('mediaStatus', 'PlanController@mediaStatus');

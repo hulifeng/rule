@@ -78,4 +78,21 @@ class PlanController extends Controller
 
         return $response->json();
     }
+
+    public function mediaStatus()
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/creative/update/status/';
+
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => '24058451bc963ff7eb8c8bd0504f089c35acef3a'
+        ])->post($url, [
+            'advertiser_id' => env('AD_ADVERTISER_ID'),
+            'ad_id' => '1650343545691150',
+            'creative_ids' => ['1650362958428221'],
+            'opt_status' => 'disable'
+        ]);
+
+        dd($response->json());
+    }
 }
