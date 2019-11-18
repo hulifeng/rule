@@ -34,7 +34,7 @@ class RulesController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => '24058451bc963ff7eb8c8bd0504f089c35acef3a'
+            'Access-Token' => 'abc377e94de2abe9f85018d704a03bcb12e5e632'
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID')
         ]);
@@ -163,6 +163,7 @@ class RulesController extends Controller
             'rule_name' => $request->rule_name, // 规则名称
             'rule_object' => $rule_object, // 应用对象
             'rule_policy' => $policy, // 策略模板
+            'ad_id' => $request->ad_id,
             'execute_item' => $request->execute_item, // 执行项
             'execute_condition' => $request->execute_condition, // 执行条件
             'execute_val' => $request->execute_val, // 执行值
@@ -200,7 +201,19 @@ class RulesController extends Controller
      */
     public function edit(Rule $rule)
     {
-        return view('rules.edit', compact('rule'));
+        // 获取所有计划列表
+        $url = 'https://ad.oceanengine.com/open_api/2/ad/get/';
+
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => 'abc377e94de2abe9f85018d704a03bcb12e5e632'
+        ])->get($url, [
+            "advertiser_id" => env('AD_ADVERTISER_ID')
+        ]);
+
+        $planList = $response->json()['data']['list'];
+
+        return view('rules.edit_new', compact('rule', 'planList'));
     }
 
     /**
@@ -210,60 +223,121 @@ class RulesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+//    public function update(Request $request, Rule $rule)
+//    {
+//        $rule = DB::transaction(function () use ($request, $rule) {
+//
+//            $request['condition_relation'] = $request->input('condition_relation') == 'on' ? 1 : 0;
+//            $request['notice'] = $request->input('notice') == 'on' ? 1 : 0;
+//            $request['check_time'] = $request->input('check_time') == 'on' ? 1 : 0;
+//            $request['clock'] = $request['check_time'] ? $request->input('clock') : ' ';
+//
+//            // 判断是每小时还是每天时刻
+//            if ($request['check_time'] == '1') {
+//                // 自定义时刻
+//                $clockArray = explode(':', $request->input('clock'));
+//                $hour = $clockArray[0];
+//                $minute = $clockArray[1];
+//            } else {
+//                // 每小时执行
+//                // 分 时 天 月 星期
+//                $hour = 'per_hour';
+//                $minute = 'normal';
+//            }
+//
+//            $request['shell'] = json_encode([
+//                'shell' => $rule->acid,
+//                'hour' => $hour,
+//                'minute' => $minute
+//            ]);
+//
+//            $rule->update($request->only([
+//                'acid', 'rule_name', 'excute_item', 'excute_switch', 'excute_condition', 'excute_val', 'excute_val_type',
+//                'frequency', 'frequency_type', 'upper_limit', 'condition_relation', 'notice', 'check_time',
+//                'clock', 'shell', 'excute_action'
+//            ]));
+//
+//            $rule->rules()->delete();
+//
+//            $items = $request->input('item');
+//            $conditions = $request->input('condition');
+//            $val1s = $request->input('val1');
+//            $val2s = $request->input('val2');
+//            foreach ($items as $k => $v) {
+//                $item = $rule->rules()->make([
+//                    'item' => $v,
+//                    'condition' => $conditions[$k],
+//                    'val1' => $val1s[$k],
+//                    'val2' => $val2s[$k]
+//                ]);
+//                $item->save();
+//            }
+//
+//            return $rule;
+//        });
+//
+//        session()->flash('success', '规则修改成功！');
+//
+//        return redirect()->route('rules.index');
+//    }
+
     public function update(Request $request, Rule $rule)
     {
-        $rule = DB::transaction(function () use ($request, $rule) {
+        // 开启事务
+        DB::beginTransaction();
 
-            $request['condition_relation'] = $request->input('condition_relation') == 'on' ? 1 : 0;
-            $request['notice'] = $request->input('notice') == 'on' ? 1 : 0;
-            $request['check_time'] = $request->input('check_time') == 'on' ? 1 : 0;
-            $request['clock'] = $request['check_time'] ? $request->input('clock') : ' ';
+        $policy = $request->policy; // 策略模板
+        $rule_object = $request->rule_object; // 应用对象 ①：所有计划 ②：指定计划（需计划ID）
+        $clock = $request->clock;
+        $items = $request->item;
+        $conditions = $request->condition;
+        $val1s = $request->val1;
+        $val2s = $request->val2;
 
-            // 判断是每小时还是每天时刻
-            if ($request['check_time'] == '1') {
-                // 自定义时刻
-                $clockArray = explode(':', $request->input('clock'));
-                $hour = $clockArray[0];
-                $minute = $clockArray[1];
-            } else {
-                // 每小时执行
-                // 分 时 天 月 星期
-                $hour = 'per_hour';
-                $minute = 'normal';
-            }
+        $acid =  $rule->acid;
 
-            $request['shell'] = json_encode([
-                'shell' => $rule->acid,
-                'hour' => $hour,
-                'minute' => $minute
+        $json = [
+            'shell' => $rule->acid,
+            'clock' => $clock
+        ];
+
+        $data = [
+            'acid' => $acid, // 生成唯一标志
+            'clock' => $request->clock, // 时刻每小时多少分钟执行
+            'rule_name' => $request->rule_name, // 规则名称
+            'rule_object' => $rule_object, // 应用对象
+            'rule_policy' => $policy, // 策略模板
+            'execute_item' => $request->execute_item, // 执行项
+            'execute_condition' => $request->execute_condition, // 执行条件
+            'execute_val' => $request->execute_val, // 执行值
+            'shell' => json_encode($json, JSON_UNESCAPED_UNICODE)
+        ];
+
+        $data['ad_id'] = '';
+
+        if (in_array($request->rule_object, [2, 4])) $data['ad_id'] = $request->ad_id;
+
+        $res = $rule->update($data);
+
+        $rule->rules()->delete();
+
+        foreach ($items as $k => $v) {
+            $item = $rule->rules()->make([
+                'item' => $v,
+                'condition' => $conditions[$k],
+                'val1' => $val1s[$k],
+                'val2' => $val2s[$k]
             ]);
+            $item->save();
+        }
 
-            $rule->update($request->only([
-                'acid', 'rule_name', 'excute_item', 'excute_switch', 'excute_condition', 'excute_val', 'excute_val_type',
-                'frequency', 'frequency_type', 'upper_limit', 'condition_relation', 'notice', 'check_time',
-                'clock', 'shell', 'excute_action'
-            ]));
+        if ($res !== false) {
+            DB::commit();
+        } else {
+            DB::rollBack();
+        }
 
-            $rule->rules()->delete();
-
-            $items = $request->input('item');
-            $conditions = $request->input('condition');
-            $val1s = $request->input('val1');
-            $val2s = $request->input('val2');
-            foreach ($items as $k => $v) {
-                $item = $rule->rules()->make([
-                    'item' => $v,
-                    'condition' => $conditions[$k],
-                    'val1' => $val1s[$k],
-                    'val2' => $val2s[$k]
-                ]);
-                $item->save();
-            }
-
-            return $rule;
-        });
-
-        session()->flash('success', '规则修改成功！');
+        session()->flash('success', '规则编辑成功！');
 
         return redirect()->route('rules.index');
     }

@@ -19,7 +19,7 @@ class CreateRulesTable extends Migration
             $table->string('rule_name')->nullable()->comment('规则名称');
             $table->tinyInteger('rule_object')->default(1)->comment('应用对象');
             $table->tinyInteger('rule_policy')->default(1)->comment('策略模板');
-            $table->unsignedBigInteger('ad_id')->nullable()->comment('广告ID');
+            $table->string('ad_id')->nullable()->comment('广告ID');
             $table->tinyInteger('execute_item')->default(1)->comment('执行项');
             $table->tinyInteger('execute_condition')->default(1)->comment('执行条件');
             $table->string('execute_val')->nullable()->comment('执行值');

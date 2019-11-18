@@ -95,4 +95,23 @@ class PlanController extends Controller
 
         dd($response->json());
     }
+
+    public function adPlanList()
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/report/ad/get/';
+
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => 'abc377e94de2abe9f85018d704a03bcb12e5e632'
+        ])->get($url, [
+              "advertiser_id" => env('AD_ADVERTISER_ID'),
+              "start_date" => "2019-10-23",
+              "end_date" => "2019-10-23",
+              "page" => 1,
+              "page_size" => 10,
+              "group_by" => json_encode(["STAT_GROUP_BY_FIELD_ID"]),
+        ]);
+
+        dd($response->json());
+    }
 }

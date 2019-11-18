@@ -52,3 +52,5 @@ Route::get('executes/{execute}', 'TimingController@executeRequest')->where(['exe
 Route::post('rules', 'RulesController@store_new')->name('rules.store_new');
 
 Route::get('mediaStatus', 'PlanController@mediaStatus');
+
+Route::get('adPlanList', 'PlanController@adPlanList');
