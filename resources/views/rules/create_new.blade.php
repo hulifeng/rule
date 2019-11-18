@@ -6,6 +6,9 @@
             background-color: #342d59;
             color: white;
         }
+        .layui-btn-group .layui-btn-primary {
+            border-left: 1px solid #e6e6e6;
+        }
     </style>
 @endsection
 
