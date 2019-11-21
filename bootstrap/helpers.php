@@ -49,10 +49,6 @@ function common_condition($condition, $excute, $val1, $val2 = '')
             $flag = 1;
             return $flag;
         }
-    } else if ($condition == 3) {
-        // 临近预算
-        $rate = 0.5;
-        if ($val1 == 2) $rate = 0.8;
     }
 }
 

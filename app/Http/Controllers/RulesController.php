@@ -8,6 +8,7 @@ use function GuzzleHttp\Promise\queue;
 use Illuminate\Http\Request;
 use App\Models\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Zttp\Zttp;
 
 class RulesController extends Controller
@@ -34,7 +35,7 @@ class RulesController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'abc377e94de2abe9f85018d704a03bcb12e5e632'
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID')
         ]);
@@ -206,7 +207,7 @@ class RulesController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'abc377e94de2abe9f85018d704a03bcb12e5e632'
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID')
         ]);
@@ -215,71 +216,6 @@ class RulesController extends Controller
 
         return view('rules.edit_new', compact('rule', 'planList'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-//    public function update(Request $request, Rule $rule)
-//    {
-//        $rule = DB::transaction(function () use ($request, $rule) {
-//
-//            $request['condition_relation'] = $request->input('condition_relation') == 'on' ? 1 : 0;
-//            $request['notice'] = $request->input('notice') == 'on' ? 1 : 0;
-//            $request['check_time'] = $request->input('check_time') == 'on' ? 1 : 0;
-//            $request['clock'] = $request['check_time'] ? $request->input('clock') : ' ';
-//
-//            // 判断是每小时还是每天时刻
-//            if ($request['check_time'] == '1') {
-//                // 自定义时刻
-//                $clockArray = explode(':', $request->input('clock'));
-//                $hour = $clockArray[0];
-//                $minute = $clockArray[1];
-//            } else {
-//                // 每小时执行
-//                // 分 时 天 月 星期
-//                $hour = 'per_hour';
-//                $minute = 'normal';
-//            }
-//
-//            $request['shell'] = json_encode([
-//                'shell' => $rule->acid,
-//                'hour' => $hour,
-//                'minute' => $minute
-//            ]);
-//
-//            $rule->update($request->only([
-//                'acid', 'rule_name', 'excute_item', 'excute_switch', 'excute_condition', 'excute_val', 'excute_val_type',
-//                'frequency', 'frequency_type', 'upper_limit', 'condition_relation', 'notice', 'check_time',
-//                'clock', 'shell', 'excute_action'
-//            ]));
-//
-//            $rule->rules()->delete();
-//
-//            $items = $request->input('item');
-//            $conditions = $request->input('condition');
-//            $val1s = $request->input('val1');
-//            $val2s = $request->input('val2');
-//            foreach ($items as $k => $v) {
-//                $item = $rule->rules()->make([
-//                    'item' => $v,
-//                    'condition' => $conditions[$k],
-//                    'val1' => $val1s[$k],
-//                    'val2' => $val2s[$k]
-//                ]);
-//                $item->save();
-//            }
-//
-//            return $rule;
-//        });
-//
-//        session()->flash('success', '规则修改成功！');
-//
-//        return redirect()->route('rules.index');
-//    }
 
     public function update(Request $request, Rule $rule)
     {
@@ -298,7 +234,7 @@ class RulesController extends Controller
 
         $json = [
             'shell' => $rule->acid,
-            'clock' => $clock
+            'minute' => $clock
         ];
 
         $data = [
@@ -368,14 +304,12 @@ class RulesController extends Controller
 
          $shell = $shell_command->shell;
 
-         $hour = $shell_command->hour;
-
          $minute = $shell_command->minute;
 
          $command = 'stop';
          if ($status == 1) $command = 'start';
 
-         shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $hour $acid 2>&1");
+         shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $acid 2>&1");
 
          DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
 

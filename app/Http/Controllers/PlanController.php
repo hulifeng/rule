@@ -13,7 +13,7 @@ class PlanController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            "Access-Token" => '6637583dcd8b302e50636352a576bfad50647547'
+            "Access-Token" => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->get($url, [
             'advertiser_id' => '2326195257476781', // 广告主 ID
         ]);
@@ -24,12 +24,11 @@ class PlanController extends Controller
     // 更改计划状态
     public function planStatus()
     {
-        $access_token = 'e010c9c97b01fb033cc0a2eb416b45ad462488a4';
         $url = 'https://ad.toutiao.com/open_api/2/ad/update/status/';
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            "Access-Token" => $access_token
+            "Access-Token" => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->post($url, [
             'advertiser_id' => '2326195257476781', // 广告主 ID
             'ad_ids'        => ['1650343204111422'], // 计划ID
@@ -44,11 +43,9 @@ class PlanController extends Controller
     {
         $url = 'https://ad.toutiao.com/open_api/2/ad/update/budget/';
 
-        $access_token = 'c5eaff979b8fe280a7cd936f393d9f8133488697';
-
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            "Access-Token" => $access_token
+            "Access-Token" => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->post($url, [
             'advertiser_id' => '2326195257476781', // 广告主 ID
             'data'          => [[
@@ -67,7 +64,7 @@ class PlanController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'c5eaff979b8fe280a7cd936f393d9f8133488697'
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->post($url, [
             'advertiser_id' => '2326195257476781', // 广告主 ID
             'data' => [[
@@ -85,7 +82,7 @@ class PlanController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => '24058451bc963ff7eb8c8bd0504f089c35acef3a'
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->post($url, [
             'advertiser_id' => env('AD_ADVERTISER_ID'),
             'ad_id' => '1650343545691150',
@@ -102,7 +99,7 @@ class PlanController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'abc377e94de2abe9f85018d704a03bcb12e5e632'
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->get($url, [
               "advertiser_id" => env('AD_ADVERTISER_ID'),
               "start_date" => "2019-10-23",
@@ -110,6 +107,28 @@ class PlanController extends Controller
               "page" => 1,
               "page_size" => 10,
               "group_by" => json_encode(["STAT_GROUP_BY_FIELD_ID"]),
+        ]);
+
+        dd($response->json());
+    }
+
+    public function adData($adID)
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/report/ad/get/';
+
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
+        ])->get($url, [
+            "advertiser_id" => env('AD_ADVERTISER_ID'),
+            "start_date" => '2019-10-23',
+            "end_date" => '2019-10-23',
+            "page" => 1,
+            "page_size" => 20,
+            "group_by" => json_encode(["STAT_GROUP_BY_FIELD_ID"]),
+            "filtering" => json_encode([
+                'ad_ids' => [$adID]
+            ])
         ]);
 
         dd($response->json());

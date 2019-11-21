@@ -36,14 +36,8 @@ Route::get('planBudget', 'PlanController@planBudget');
 // 更新计划出价
 Route::get('planBid', 'PlanController@planBid');
 
-// 测试
-Route::get('check', 'TimingController@check');
-
 // 获取广告计划列表
 Route::get('planList', 'PlanController@planList');
-
-// 获取多个一数据报表
-Route::get('manyWithSimple', 'TimingController@manyWithSimple');
 
 // 测试发送 post 请求
 Route::get('executes/{execute}', 'TimingController@executeRequest')->where(['execute' => '[0-9a-z]+']);
@@ -54,3 +48,6 @@ Route::post('rules', 'RulesController@store_new')->name('rules.store_new');
 Route::get('mediaStatus', 'PlanController@mediaStatus');
 
 Route::get('adPlanList', 'PlanController@adPlanList');
+
+// 获取广告出价
+Route::get('bids/{bid}', 'TimingController@getBid');

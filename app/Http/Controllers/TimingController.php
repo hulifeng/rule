@@ -8,229 +8,258 @@ use Zttp\Zttp;
 
 class TimingController extends Controller
 {
-    public function check()
+    /**
+     * 处理数据
+     * @param $acid
+     */
+    public function executeRequest($acid)
     {
-        $url = 'https://ad.oceanengine.com/open_api/2/report/ad/get/';
-
-        $access_token = Redis::get(env('AD_APP_ID') . '_access_token');
+        // 获取广告计划
+        $url = 'https://ad.oceanengine.com/open_api/2/ad/get/';
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'e010c9c97b01fb033cc0a2eb416b45ad462488a4'
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID'),
-            "start_date" => '2019-10-23',
-            "end_date" => '2019-10-23',
-            "group_by" => ['STAT_GROUP_BY_FIELD_ID']
+            "page" => '1',
+            "page_size" => '20'
         ]);
 
         $planList = $response->json();
-        return $planList;
 
-        foreach ($planList['data']['list'] as $v) {
-            $cost = $v['cost']; // 消耗
+        $ruleInfo = Rule::where("acid", $acid)->first();
 
-            $convert = $v['convert']; // 转化
+        $rulePolicy = $ruleInfo->rule_policy;
 
-            $convert_cost = conversion_number($cost, $convert);  // 转化成本
+        $executeVal = $ruleInfo->execute_val;
 
-            $click = $v['click']; // 点击
-
-            $avg_click =  conversion_number($cost, $click, false); // 平均点击单价
-
-            $show = $v['show']; // 展示
-
-            $percentConversion = conversion_number($convert, $click); // 转化率（cvr）=转化数（conversion）/点击（click）
-
-            $clickConversion = conversion_number($click, $show); // 点击率（ctr）=点击（click）/展现（show）
-
-            $ruleInfo = Rule::find(1);
-
-            // 条件关系
-            $condition = $ruleInfo->condition_relation;
-
-            $flag = 0; // 标识
-            foreach ($ruleInfo->rules as $rule) {
-                $item = $rule->item;
-                $condition = $rule->condition;
-                $v1 = $rule->val1;
-                $v2 = $rule->val2;
-                if ($item == 1) {
-                    // 消耗
-                    $flag += common_condition($condition, $cost, $v1, $v2);
-                } else if ($item == 2) {
-                    // 转化数
-                    $flag += common_condition($condition, $convert_cost, $v1, $v2);
-                } else if ($item == 3) {
-                    // 转化成本
-                    $flag += common_condition($condition, $convert_cost, $v1, $v2);
-                } else if ($item == 4) {
-                    // 点击数
-                    $flag += common_condition($condition, $click, $v1, $v2);
-                } else if ($item == 5) {
-                    // 转化率
-                    $flag += common_condition($condition, $percentConversion, $v1, $v2);
-                } else if ($item == 6) {
-                    // 平均点击单价
-                    $flag += common_condition($condition, $avg_click, $v1, $v2);
-                } else if ($item == 7) {
-                    // 点击率
-                    $flag += common_condition($condition, $clickConversion, $v1, $v2);
-                } else if ($item == 8) {
-                    // 展示数
-                    $flag += common_condition($condition, $show, $v1, $v2);
+        if (sizeof($planList['data']['list'])) {
+            foreach ($planList['data']['list'] as $v) {
+                $flag = 0; // 标识
+                $adID = str_replace('.0', '', $v['ad_id']);
+                $adDataInfo = $this->adData($adID);
+                // 消耗撞线
+                if ($v['cost'] == $v['budget']) {
+                    $newBudget = sprintf('%.2f', ($v['budget'] + $executeVal));
+                    $budgetRes = $this->changeBudget($adID, $newBudget);
+                    if ($budgetRes) {
+                        // 执行成功
+                    }
                 }
+                foreach ($ruleInfo->rules as $rule) {
+                    $item = $rule->item;
+                    $v1 = $rule->val1;
+                    if ($rulePolicy == 1) {
+                        // 出价有量走赔付
+                        // ①：转化成本介于 出价 - 出价（20%）
+                        if ($v['convert_cost'] > $v['bid'] && ($v['convert_cost'] < (sprintf('%.2f', $v['bid'] * 1.2)))) {
+                            $flag += 1;
+                        }
+                        if ($item == 2) {
+                            // ②：消耗大于出价的 n 倍
+                            if (!empty($adDataInfo)) {
+                                if ($adDataInfo["cost"] > sprintf('%.2f',$v['bid'] * $v1)) {
+                                    $flag += 1;
+                                }
+                            }
+                        }
+                        if ($flag == 2) {
+                            // 满足条件执行 (修改出价降至转化成本的 20%)
+                            $bid = sprintf('%.2f', $v['convert_cost'] * 0.2);
+                            $res = $this->changeBID($adID, $bid);
+                            if ($res) {
+                                // 增加频次 每天两次
+                                if ($ruleInfo->frequency < 2) {
+                                    Rule::where("acid", $acid)->increment('frequency');
+                                }
+                            }
+                        }
+                    } else if ($rulePolicy == 2) {
+                        // 出价有量走效果
+                        $mediaData = $this->mediaData($adID);
 
-                // 满足执行条件
-//                if ($flag) {
-//                    $excute_item = $ruleInfo->excute_item;
-//                    if ($excute_item == 1) {
-//                        // 预算
-//                    } else if ($excute_item == 2) {
-//                        // 出价
-//                    } else if ($excute_item == 3) {
-//                        // 开关
-//                    } else if ($excute_item == 4) {
-//                        // 仅发送通知
-//                    }
-//                }
-            }
-
-            if ($condition == 1) {
-                // OR 的关系
-                if ($flag > 0) {
-                    // 满足执行条件，执行执行操作
-                    delivery_plan($ruleInfo);
-                }
-            } else  {
-                // AND 的关系
-                if ($flag == sizeof($ruleInfo->rules)) {
-                    // 满足执行条件，执行执行操作
-                    delivery_plan($ruleInfo);
+                        if (sizeof($mediaData)) {
+                            foreach ($mediaData as $value) {
+                                if ($item == 1) {
+                                    // ①：创意的转化成本超出 kpi 考核成本的 n 倍
+                                    if (!empty($mediaData)) {
+                                        if ($value['convert_cost'] > $v1) {
+                                            $flag += 1;
+                                        }
+                                    }
+                                } else if ($item == 2) {
+                                    // ②：消耗 大于 kpi 成本的 n 倍
+                                    if (!empty($adDataInfo)) {
+                                        if ($value['cost'] > $v1) {
+                                            $flag += 1;
+                                        }
+                                    }
+                                }
+                                if ($flag == 2) {
+                                    // 满足条件执行关停创意
+                                    $this->changeMediaStatus([$value['creative_id']], 'disable');
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    public function manyWithSimple()
-    {
-        $url = 'https://ad.oceanengine.com/open_api/2/report/integrated/get/';
-
-        $response = Zttp::withHeaders([
-            'Content-Type' => 'application/json',
-            'Access-Token' => 'd1eedfe6639fb5687f26480f576a253c07b852da'
-        ])->get($url, [
-            "advertiser_id" => env('AD_ADVERTISER_ID'),
-            "start_date" => '2019-10-23',
-            "end_date" => '2019-10-23',
-            "group_by" => ["STAT_GROUP_BY_BIDWORD_ID", "STAT_GROUP_BY_AD_ID"]
-        ]);
-
-        dd($response->json());
-    }
-
-    public function executeRequest($acid)
+    /**
+     * 广告计划数据
+     * @param $adID
+     * @return array
+     */
+    public function adData($adID)
     {
         $url = 'https://ad.oceanengine.com/open_api/2/report/ad/get/';
 
-        $access_token = Redis::get(env('AD_APP_ID') . '_access_token');
-
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => 'd1eedfe6639fb5687f26480f576a253c07b852da'
+            'Access-Token' => env('AD_ACCESS_TOKEN')
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID'),
             "start_date" => '2019-10-23',
             "end_date" => '2019-10-23',
-            "group_by" => ['STAT_GROUP_BY_FIELD_ID']
+            "page" => 1,
+            "page_size" => 20,
+            "group_by" => json_encode(["STAT_GROUP_BY_FIELD_ID"]),
+            "filtering" => json_encode([
+                'ad_ids' => [$adID]
+            ])
         ]);
 
-        $planList = $response->json();
+        $list = $response->json()['data']['list'];
 
-        foreach ($planList['data']['list'] as $v) {
-            $cost = $v['cost']; // 消耗
+        if (sizeof($list)) {
+            return $list[0];
+        } else {
+            return [];
+        }
+    }
 
-            $convert = $v['convert']; // 转化
+    /**
+     * 计划创意数据
+     * @param $adID
+     * @return array
+     */
+    public function mediaData($adID)
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/report/creative/get/';
 
-            $convert_cost = conversion_number($cost, $convert);  // 转化成本
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
+        ])->get($url, [
+            'advertiser_id' => env('AD_ADVERTISER_ID'),
+            'start_date' => '2019-10-23',
+            'end_date' => date('Y-m-d', time()),
+            'page' => 1,
+            'page_size' => 20,
+            'group_by' => json_encode(['STAT_GROUP_BY_FIELD_ID']),
+            'filtering' => json_encode([
+                'ad_ids' => [$adID]
+            ])
+        ]);
 
-            $click = $v['click']; // 点击
+        $list = $response->json()['data']['list'];
 
-            $avg_click =  conversion_number($cost, $click, false); // 平均点击单价
+        if (sizeof($list)) {
+            return $list;
+        } else {
+            return [];
+        }
+    }
 
-            $show = $v['show']; // 展示
+    /**
+     * 更改计划出价
+     * @param $adID
+     * @param $BID
+     * @return bool
+     */
+    public function changeBID($adID, $BID)
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/ad/update/bid/';
 
-            $percentConversion = conversion_number($convert, $click); // 转化率（cvr）=转化数（conversion）/点击（click）
+        $response = Zttp::withHeaders([
+            'Content-Type' => 'application/json',
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
+        ])->post($url, [
+            'advertiser_id' => env('AD_ADVERTISER_ID'),
+            'data' => [[
+                'ad_id' => $adID,
+                'bid'   => $BID
+            ]]
+        ]);
 
-            $clickConversion = conversion_number($click, $show); // 点击率（ctr）=点击（click）/展现（show）
+        $responseJson = $response->json();
 
-            $ruleInfo = Rule::where("acid", $acid)->first();
+        if ($responseJson['code'] == 0) {
+            // 更改成功
+            return true;
+        } else {
+            // 更改失败
+            return false;
+        }
+    }
 
-            // 条件关系
-            $condition = $ruleInfo->condition_relation;
+    /**
+     * 改变计划预算
+     * @param $adID
+     * @param $budget
+     * @return bool
+     */
+    public function changeBudget($adID, $budget)
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/ad/update/budget/';
 
-            $flag = 0; // 标识
-            foreach ($ruleInfo->rules as $rule) {
-                $item = $rule->item;
-                $condition = $rule->condition;
-                $v1 = $rule->val1;
-                $v2 = $rule->val2;
-                if ($item == 1) {
-                    // 消耗
-                    $flag += common_condition($condition, $cost, $v1, $v2);
-                } else if ($item == 2) {
-                    // 转化数
-                    $flag += common_condition($condition, $convert_cost, $v1, $v2);
-                } else if ($item == 3) {
-                    // 转化成本
-                    $flag += common_condition($condition, $convert_cost, $v1, $v2);
-                } else if ($item == 4) {
-                    // 点击数
-                    $flag += common_condition($condition, $click, $v1, $v2);
-                } else if ($item == 5) {
-                    // 转化率
-                    $flag += common_condition($condition, $percentConversion, $v1, $v2);
-                } else if ($item == 6) {
-                    // 平均点击单价
-                    $flag += common_condition($condition, $avg_click, $v1, $v2);
-                } else if ($item == 7) {
-                    // 点击率
-                    $flag += common_condition($condition, $clickConversion, $v1, $v2);
-                } else if ($item == 8) {
-                    // 展示数
-                    $flag += common_condition($condition, $show, $v1, $v2);
-                }
+        $response = Zttp::withHeaders([
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token'),
+            'Content-Type' => 'application/json'
+        ])->post($url, [
+            'advertiser_id' => env('AD_ADVERTISER_ID'),
+            'data' => [[
+                'ad_id' => $adID,
+                'budget' => $budget
+            ]]
+        ]);
 
-                // 满足执行条件
-//                if ($flag) {
-//                    $excute_item = $ruleInfo->excute_item;
-//                    if ($excute_item == 1) {
-//                        // 预算
-//                    } else if ($excute_item == 2) {
-//                        // 出价
-//                    } else if ($excute_item == 3) {
-//                        // 开关
-//                    } else if ($excute_item == 4) {
-//                        // 仅发送通知
-//                    }
-//                }
-            }
+        $responseJson = $response->json();
 
-            if ($condition == 1) {
-                // OR 的关系
-                if ($flag > 0) {
-                    // 满足执行条件，执行执行操作
-//                    delivery_plan($ruleInfo);
-                    file_put_contents('./execute.txt', '满足AND执行条件' . date("Y-m-d H:i:s", time()) . PHP_EOL, FILE_APPEND);
-                }
-            } else  {
-                // AND 的关系
-                if ($flag == sizeof($ruleInfo->rules)) {
-                    // 满足执行条件，执行执行操作
-//                    delivery_plan($ruleInfo);
-                    file_put_contents('./execute.txt', '满足AND执行条件' . date("Y-m-d H:i:s", time()) . PHP_EOL, FILE_APPEND);
-                }
-            }
+        if ($responseJson['code'] == 0) {
+            // 更改成功
+            return true;
+        } else {
+            // 更改失败
+            return false;
+        }
+    }
+
+    /**
+     * 关停创意
+     */
+    public function changeMediaStatus($creativeIds, $status)
+    {
+        $url = 'https://ad.oceanengine.com/open_api/2/creative/update/status/';
+
+        $response = Zttp::withHeaders([
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token'),
+            'Content-Type' => 'application/json'
+        ])->post($url, [
+            'advertiser_id' => env('AD_ADVERTISER_ID'),
+            'creative_ids' => $creativeIds,
+            'opt_status' => $status
+        ]);
+
+        $responseJson = $response->json();
+
+        if ($responseJson['code'] == 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
