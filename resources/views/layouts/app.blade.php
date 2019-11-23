@@ -13,7 +13,7 @@
     {{--其他 css--}}
     @yield('AfterCss')
 </head>
-<body class="rule-body">
+<body class="rule-body" id="app">
     <div class="rule-fluid {{ route_class() }}-page" style="max-width: 1200px;">
         {{--主体内容--}}
         @yield('content')

@@ -9,6 +9,10 @@
 @endsection
 
 @section('content')
+    <form action="{{ route('logout') }}" method="POST">
+        {{ csrf_field() }}
+        <button class="btn btn-block btn-danger" type="submit" name="button">退出</button>
+    </form>
     <div class="layui-row">
         <div class="layui-col-md12">
             <div class="layui-card">
@@ -28,6 +32,7 @@
 @endsection
 
 @section('AfterJS')
+    @include('shared._message')
     <script>
         layui.use(['table', 'form'], function () {
             var table = layui.table,
@@ -46,12 +51,14 @@
                     , {field: 'rule_name', title: '命令名称'}
                     , {field: 'id', title: '命令ID'}
                     , {field: 'created_at', title: '创建时间'}
-                    , {field: '', title: '操作', templet: function (res) {
+                    , {
+                        field: '', title: '操作', templet: function (res) {
                             return '<div class="layui-btn-group">' +
                                 '<a href="/rules/' + res.id + '/edit" class="layui-btn-xs" style="color: #b6adc5;"><i class="fa fa-edit"></i></a>\n' +
-                                '<a data-id="'+res.id+'"  class="layui-btn-xs" style="color: #b6adc5; cursor: pointer;" onclick="delete_rule(this)"><i class="fa fa-trash-o"></i></a>\n' +
+                                '<a data-id="' + res.id + '"  class="layui-btn-xs" style="color: #b6adc5; cursor: pointer;" onclick="delete_rule(this)"><i class="fa fa-trash-o"></i></a>\n' +
                                 '</div>';
-                        }}
+                        }
+                    }
                 ]],
                 page: true
             });

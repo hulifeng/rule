@@ -7,7 +7,7 @@
             function fire() {
                 Toast.fire({
                     title: "{{$error}}",
-                    icon: "success",
+                    icon: "error",
                     timer: 3000
                 });
             }

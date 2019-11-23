@@ -52281,10 +52281,9 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-var app = new Vue({
-  el: '#app'
-});
+// const app = new Vue({
+//     el: '#app',
+// });
 
 /***/ }),
 
@@ -52298,14 +52297,14 @@ var app = new Vue({
 window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 window.Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: 'top',
   showConfirmButton: false,
   width: '300px',
   padding: '10px',
   customClass: 'sweetAlert sweetAlert2',
   timer: 1500,
   showClass: {
-    popup: 'animated fadeInRight faster'
+    popup: 'animated fadeInDown faster'
   }
 });
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");

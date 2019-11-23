@@ -2,14 +2,14 @@ window.Swal = require('sweetalert2');
 
 window.Toast = Swal.mixin({
     toast: true,
-    position: 'top-end',
+    position: 'top',
     showConfirmButton: false,
     width: '300px',
     padding: '10px',
     customClass: 'sweetAlert sweetAlert2',
     timer: 1500,
     showClass: {
-        popup: 'animated fadeInRight faster'
+        popup: 'animated fadeInDown faster'
     }
 });
 
