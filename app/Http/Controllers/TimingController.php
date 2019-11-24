@@ -128,7 +128,7 @@ class TimingController extends Controller
 
         $response = Zttp::withHeaders([
             'Content-Type' => 'application/json',
-            'Access-Token' => env('AD_ACCESS_TOKEN')
+            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
         ])->get($url, [
             "advertiser_id" => env('AD_ADVERTISER_ID'),
             "start_date" => '2019-10-23',
