@@ -45,6 +45,9 @@ class TimingController extends Controller
                     $budgetRes = $this->changeBudget($adID, $newBudget);
                     if ($budgetRes) {
                         // 执行成功
+                        file_put_contents('./loading_log.txt', '消耗撞线执行成功：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
+                    } else {
+                        file_put_contents('./loading_log.txt', '消耗撞线执行失败：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
                     }
                 }
                 foreach ($ruleInfo->rules as $rule) {
@@ -55,12 +58,14 @@ class TimingController extends Controller
                         // ①：转化成本介于 出价 - 出价（20%）
                         if ($v['convert_cost'] > $v['bid'] && ($v['convert_cost'] < (sprintf('%.2f', $v['bid'] * 1.2)))) {
                             $flag += 1;
+                            file_put_contents('./loading_log.txt', '转化成本介于 出价 - 出价（20%）：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
                         }
                         if ($item == 2) {
                             // ②：消耗大于出价的 n 倍
                             if (!empty($adDataInfo)) {
                                 if ($adDataInfo["cost"] > sprintf('%.2f',$v['bid'] * $v1)) {
                                     $flag += 1;
+                                    file_put_contents('./loading_log.txt', '消耗大于出价的 n 倍：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
                                 }
                             }
                         }
@@ -72,6 +77,7 @@ class TimingController extends Controller
                                 // 增加频次 每天两次
                                 if ($ruleInfo->frequency < 2) {
                                     Rule::where("acid", $acid)->increment('frequency');
+                                    file_put_contents('./loading_log.txt', '增加频次 每天两次：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
                                 }
                             }
                         }
@@ -86,6 +92,7 @@ class TimingController extends Controller
                                     if (!empty($mediaData)) {
                                         if ($value['convert_cost'] > $v1) {
                                             $flag += 1;
+                                            file_put_contents('./loading_log.txt', '创意的转化成本超出 kpi 考核成本的 n 倍：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
                                         }
                                     }
                                 } else if ($item == 2) {
@@ -93,12 +100,14 @@ class TimingController extends Controller
                                     if (!empty($adDataInfo)) {
                                         if ($value['cost'] > $v1) {
                                             $flag += 1;
+                                            file_put_contents('./loading_log.txt', '消耗 大于 kpi 成本的 n 倍：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
                                         }
                                     }
                                 }
                                 if ($flag == 2) {
                                     // 满足条件执行关停创意
                                     $this->changeMediaStatus([$value['creative_id']], 'disable');
+                                    file_put_contents('./loading_log.txt', '满足条件执行关停创意：' .date('Y-m-d H:i:s', time()) . PHP_EOL, FILE_APPEND);
                                 }
                             }
                         }
