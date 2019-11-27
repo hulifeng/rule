@@ -180,6 +180,9 @@ return [
 
         // 中文提示信息
         Overtrue\LaravelLang\TranslationServiceProvider::class,
+
+        // active
+        HieuLe\Active\ActiveServiceProvider::class,
     ],
 
     /*
@@ -232,6 +235,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // 验证码
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        // active
+        'Active' => HieuLe\Active\Facades\Active::class,
     ],
 
 ];

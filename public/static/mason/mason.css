@@ -1,0 +1,266 @@
+.table01 {
+    width: 100%;
+    border: 1px solid #dfdfdf;
+    font-size: 12px;
+    color: #666666;
+    border-bottom: none;
+    border-collapse: collapse;
+}
+
+.table01 thead {
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.table01 thead tr {
+    width: 100%;
+    background-color: #f2f2f2;
+}
+
+.table01 tr td:nth-of-type(1) {
+    box-sizing: border-box;
+}
+
+.table01 tr td {
+    box-sizing: border-box;
+    padding: 12px 0 12px 10px;
+    text-align: left;
+}
+
+.table01 tr > td {
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.table01 td {
+    word-break: break-all;
+}
+
+.table01 tbody {
+    font-size: 12px;
+}
+
+.table01 tbody > tr:nth-of-type(2n-1) {
+    background: #fff;
+}
+
+.table01 tbody > tr:nth-of-type(2n) {
+    background: #f8f8f8;
+}
+
+.table01 tbody  tr td a {
+    color: #ff6565;
+}
+
+.table01 tbody  tr td a:hover {
+    color: red;
+}
+
+.tooltip-icon:hover {
+    cursor: pointer;
+    color: #ff6565;
+}
+
+.table01 tbody  tr td elem {
+    display: inline-flex;
+    align-items: center;
+}
+
+.table01 tbody  tr td a,i {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.marginBottom20 {
+    margin-bottom: 20px;
+}
+
+.ai_Rule_borderBg {
+    width: 100%;
+    height: 7px;
+    background: url(/images/customer_createPI_top_borderBg.png) no-repeat 0 0;
+}
+
+.ai_Rule_box {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 37px 30px 30px;
+    background: url(/images/customer_createPI_middle_borderBg.png) repeat;
+    color: #666;
+}
+
+.ai_Rule_bottom_borderBg {
+    width: 100%;
+    height: 7px;
+    background: url(/images/customer_createPI_bottom_borderBg.png) no-repeat 0 0;
+}
+
+.select005_box {
+    position: relative;
+}
+
+.select005 {
+    height: 32px;
+    padding-left: 10px;
+    font-size: 12px;
+    color: #666;
+    border-radius: 3px;
+    box-sizing: content-box;
+    border: 1px solid #ccc;
+}
+
+.select005_tip {
+    position: absolute;
+    left: 9px;
+    font-size: 12px;
+    top: -8px;
+    color: #999;
+    background: url(/images/select_tipBG.png) repeat-x;
+    transform: scale(.9);
+}
+
+.ai_little_tab_1 {
+    height: 34px;
+    margin-top: 20px;
+}
+
+.ai_allCus_tab.ai_little_tab_1 li {
+    width: 110px;
+}
+
+.ai_little_tab_1 li.choose {
+    color: #fff;
+    background: #ff6565;
+    border-color: #ff6565;
+}
+
+.ai_little_tab_1 li:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.ai_little_tab_1 li:last-child {
+    border-radius: 0 5px 5px 0;
+    border-right: 1px solid #ddd;
+}
+
+.ai_little_tab_1 li {
+    width: 118px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #fff;
+    float: left;
+    line-height: 32px;
+    border-right: 0;
+}
+
+.marginTop20 {
+    margin-top: 20px;
+}
+
+.marginBottom20 {
+    margin-bottom: 20px;
+}
+
+.marginBottom30 {
+    margin-bottom: 30px;
+}
+
+.ai_hide {
+    display: none;
+}
+
+.ai_ruleTip {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid #ffd8bf;
+    background: #fff2ea;
+    font-size: 12px;
+    color: #f88d49;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+}
+
+.ai_ruleTip > div {
+    display: flex;
+    line-height: 16px;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.ai_RuleParams .paramData .ai_param {
+    border: 1px solid #dcdcdc;
+    padding: 18px 40px 18px 30px;
+    margin-bottom: 20px;
+}
+
+.ai_RuleParams .paramData .ai_param:last-child {
+    margin-bottom: 0;
+}
+
+.ai_RuleParams .paramData .ai_param_submit {
+    height: 32px;
+    line-height: 32px;
+    margin-top: 24px;
+    text-align: center;
+    padding: 0 70px 30px;
+}
+
+.ai_RuleParams .paramData .ai_param_submit_button {
+    width: 112px;
+    height: 32px;
+    border-radius: 2px;
+    background-color: #2672ff;
+    line-height: 32px;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.ai_RuleParams .paramData .ai_param_submitOpen {
+    border-left: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 18px 40px 18px 30px;
+    margin-top: -20px;
+    text-align: center;
+}
+
+.colorff4a4a {
+    color: #ff4a4a !important;
+}
+
+.input08 {
+    width: 80px;
+    height: 32px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    color: #666;
+    background: none;
+    outline: none;
+    font-size: 12px;
+    text-align: center;
+}
+
+.ad_save_button {
+    color: #fff;
+    background-color: #ff6980;
+    border-color: #ff6980;
+    font-size: 14px;
+    width: 101px;
+    display: block;
+    box-sizing: content-box;
+    transition: all .2s;
+    padding: 10px 12px;
+    border-radius: 3px;
+    border: 0px solid transparent;
+}

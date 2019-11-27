@@ -1,69 +1,103 @@
 @extends('layouts.app')
 
-@section('AfterCss')
-    <style>
-        .sweetAlert {
-            margin-right: 25px;
-        }
-    </style>
+@section('afterCss')
+
 @endsection
 
 @section('content')
-    <form action="{{ route('logout') }}" method="POST">
-        {{ csrf_field() }}
-        <button class="btn btn-block btn-danger" type="submit" name="button">退出</button>
-    </form>
-    <div class="layui-row">
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    <span class="layui-breadcrumb">
-                      <a href="{{ route('rules.index') }}"><cite>AI命令列表</cite></a>
-                      <a href="{{ route('rules.create') }}">添加AI命令</a>
-                    </span>
+    <div class="ydc-column ydc-column-8">
+        <div class="ydc-release-content">
+            <div class="ydc-tabPanel ydc-tabPanel-release">
+                <div class="ydc-release-tab-head">
+                    <ul>
+                        <li class="hit">命令列表</li>
+                    </ul>
+                    <div class="ydc-release-amount">
+                        <span>
+                            今日添加数量：<em>{{ $todayRules }}</em>
+                            /{{ $rulesCount }} <a href="{{ route('rules.create') }}" target="_blank">添加命令</a>
+                        </span>
+                    </div>
                 </div>
-                <div class="layui-card-body">
-                    <a href="{{ route('rules.create') }}" class="layui-btn rule-purple-bg">添加AI命令</a>
-                    <table class="layui-table" id="rule_list" lay-filter="rule_list"></table>
+                <div class="ydc-panes">
+                    <div class="ydc-pane" style="display:block;">
+                        <div class="clearfix marginBottom20">
+                            <form action="{{ route('rules.index') }}">
+                                {{ csrf_field() }}
+                                <div class="fl ydc-group-sel">
+                                    <select name="status" id="status" style="width:160px;">
+                                        <option value="">请选择状态</option>
+                                        <option value="1" @if($request->status == 1) selected @endif>开启</option>
+                                        <option value="0" @if($request->status != '' && $request->status == 0) selected @endif>关闭</option>
+                                    </select>
+                                </div>
+                                <div class="fl ydc-group-input" style="width: 755px;">
+                                    <input type="text" name="rule_name" placeholder="请输入规则名称进行搜索" style="width:88%">
+                                    <button type="submit" class="ydc-group-button">确 定</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="ydc-assetStyle">
+                            <span>共<span class="ydc-assetStyle-span">{{ $rulesCount }}</span>条内容</span>
+                        </div>
+                        <div id="adTableDiv">
+                            <form class="layui-form">
+                                <table class="table01">
+                                    <thead>
+                                        <tr>
+                                            <td width="130">开启状态 <i data-tips="开启后不能编辑扫描时间" class="fa fa-question-circle tooltip-icon"></i></td>
+                                            <td width="200">命令名称</td>
+                                            <td>测试的预算</td>
+                                            <td>预期KPI值</td>
+                                            <td>超成本追加预算</td>
+                                            <td>扫描时间 <i data-tips="定时扫描计划" class="fa fa-question-circle tooltip-icon"></i></td>
+                                            <td>添加时间</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($rules as $value)
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" data-id="{{ $value->id }}" name="status" {{$value->status == 1 ? 'checked' : ''}} lay-filter="change_status" lay-skin="switch" lay-text="开启|关闭">
+                                                </td>
+                                                <td>
+                                                    <elem>
+                                                        <a class="rule_name" href="{{ route('rules.edit', $value->id) }}">{{ $value->rule_name }}</a> <i class="layui-icon layui-icon-edit ai_hide"></i>
+                                                    </elem>
+                                                </td>
+                                                <td>{{ $value->budget }}</td>
+                                                <td>{{ $value->kpi }}</td>
+                                                <td>{{ $value->append_budget }}</td>
+                                                <td>{{ $value->cron_time }}</td>
+                                                <td>{{ $value->created_at }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="ydc-pagination">{{ $rules->links() }}</div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
 
-@section('AfterJS')
+@section('afterJS')
     @include('shared._message')
     <script>
-        layui.use(['table', 'form'], function () {
-            var table = layui.table,
-                form = layui.form;
+        $(".rule_name").mouseenter(function () {
+            $(this).next().removeClass('ai_hide');
+        }).mouseleave(function () {
+            $(this).next().addClass('ai_hide');
+        });
 
-            table.render({
-                elem: "#rule_list",
-                url: "/api/v1/rules",
-                cols: [[
-                    {
-                        field: '', title: '运行/暂停', templet: function (res) {
-                            var _checked = res.status == 1 ? 'checked' : '';
-                            return '<div><input type="checkbox" data-id="' + res.id + '" ' + _checked + ' lay-filter="run" name="switch" lay-skin="switch" lay-text="ON|OFF"></div>';
-                        }
-                    }
-                    , {field: 'rule_name', title: '命令名称'}
-                    , {field: 'id', title: '命令ID'}
-                    , {field: 'created_at', title: '创建时间'}
-                    , {
-                        field: '', title: '操作', templet: function (res) {
-                            return '<div class="layui-btn-group">' +
-                                '<a href="/rules/' + res.id + '/edit" class="layui-btn-xs" style="color: #b6adc5;"><i class="fa fa-edit"></i></a>\n' +
-                                '<a data-id="' + res.id + '"  class="layui-btn-xs" style="color: #b6adc5; cursor: pointer;" onclick="delete_rule(this)"><i class="fa fa-trash-o"></i></a>\n' +
-                                '</div>';
-                        }
-                    }
-                ]],
-                page: true
-            });
+        layui.use(['form'], function () {
+            var form = layui.form;
 
-            form.on('switch(run)', function (data) {
+            //监听指定开关
+            form.on('switch(change_status)', function (data) {
                 var _checked = data.elem.checked, id = $(this).data('id'), status = 0;
 
                 if (_checked) status = 1;
@@ -78,38 +112,11 @@
                         location.reload();
                     });
                 }).catch(function (error) {
-                    swal('状态切换失败！', '', 'error');
+                    Swal.fire('状态切换失败！', '', 'error');
                 });
             });
+
+            form.render();
         });
-
-        function delete_rule(obj) {
-            var id = $(obj).data('id');
-
-            Swal.fire({
-                title: "您确定要删除该命令吗？",
-                icon: 'warning',
-                text: "删除后将无法恢复，请谨慎操作！",
-                confirmButtonColor: '#3085d6',// 确定按钮的 颜色
-                confirmButtonText: '确定',// 确定按钮的 文字
-                showCancelButton: true,
-                cancelButtonColor: '#d33', // 取消按钮的 颜色
-                cancelButtonText: "取消", // 取消按钮的 文字
-            }).then((isConfirm) => {
-                try {
-                    if (isConfirm.value) {
-                        axios.delete('/rules/' + id).then(function () {
-                            Swal.fire('删除成功', '', 'success').then(function () {
-                                location.reload();
-                            });
-                        });
-                    } else {
-                        Swal.fire('取消', '', 'error');
-                    }
-                } catch (e) {
-                    alert(e);
-                }
-            });
-        }
     </script>
 @endsection

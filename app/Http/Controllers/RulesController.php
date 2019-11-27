@@ -18,9 +18,31 @@ class RulesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('rules.index');
+        $request->except('_token');
+
+        // 查询今天查询的数量
+        $todayRules = Rule::where(function ($query) use ($request) {
+            $request->status && $query->where('status', $request->status);
+            $request->rule_name && $query->where('rule_name', 'like', $request->rule_name);
+            $query->where("is_del", 0);
+            $query->whereDate("created_at", date("Y-m-d", time()));
+        })->count();
+
+        $rulesCount = Rule::where(function ($query) use ($request) {
+            $request->status && $query->where('status', $request->status);
+            $request->rule_name && $query->where('rule_name', 'like', $request->rule_name);
+            $query->where("is_del", 0);
+        })->count();
+
+        $rules = Rule::where(function ($query) use ($request) {
+            $request->status && $query->where('status', $request->status);
+            $request->rule_name && $query->where('rule_name', 'like', $request->rule_name);
+            $query->where("is_del", 0);
+        })->paginate(5);
+
+        return view('rules.index', compact('todayRules', 'rules', 'rulesCount', 'request'));
     }
 
     /**
@@ -30,19 +52,7 @@ class RulesController extends Controller
      */
     public function create()
     {
-        // 获取所有计划列表
-        $url = 'https://ad.oceanengine.com/open_api/2/ad/get/';
-
-        $response = Zttp::withHeaders([
-            'Content-Type' => 'application/json',
-            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
-        ])->get($url, [
-            "advertiser_id" => env('AD_ADVERTISER_ID')
-        ]);
-
-        $planList = $response->json()['data']['list'];
-
-        return view('rules.create_new', compact('planList'));
+        return view('rules.create');
     }
 
     /**
@@ -54,140 +64,27 @@ class RulesController extends Controller
     public function store(RuleRequest $request)
     {
         $rule = DB::transaction(function () use ($request) {
-            
-            $condition_relation = $request->input('condition_relation'); //0: and 1: or
-            $check_time = $request->input('check_time');
-            $notice = $request->input('notice');
 
-            // 同时生成 shell
-            $shell_path = base_path() . "/shell/";
-            if (!file_exists($shell_path)) {
-                mkdir($shell_path, 0777, true);
-            }
+            $acid = uniqid();
 
-            // 判断是每小时还是每天时刻
-            if ($check_time == 'on') {
-                // 自定义时刻
-                $clockArray = explode(':', $request->input('clock' ));
-                $hour = $clockArray[0];
-                $minute = $clockArray[1];
-            } else {
-                // 每小时执行
-                // 分 时 天 月 星期
-                $hour = 'per_hour';
-                $minute = 'normal';
-            }
-
-            $str = make_grid();
-            $shell_file_name = $shell_path . "$str";
-
-            file_put_contents($shell_file_name, 'date >> /www/wwwroot/rule.usigh.com/cron/mason.txt');
-
-            $json = [
-                'shell' => "$str",
-                'hour' => $hour,
-                'minute' => $minute
-            ];
+            $rule_name = $request->rule_name ?: date("YmdHis", time());
 
             $rule = new Rule([
-                'acid' => $str, // 生成唯一标志
-                'rule_name' => $request->input('rule_name'),
-                'excute_item' => $request->input('excute_item'),
-                'excute_action' => $request->input('excute_action'),
-                'excute_switch' => $request->input('excute_switch'),
-                'excute_val' => $request->input('excute_val'),
-                'excute_val_type' => $request->input('excute_val_type'),
-                'frequency' => $request->input('frequency'),
-                'frequency_type' => $request->input('frequency_type'),
-                'upper_limit' => $request->input('upper_limit'),
-                'condition_relation' => $condition_relation == 'on' ? 1 : 0,
-                'notice' => $notice == 'on' ? 1 : 0,
-                'check_time' => $check_time == 'on' ? 1 : 0,
-                'clock' => $check_time == 'on' ? $request->input('clock') : ' ',
-                'shell' => json_encode($json, JSON_UNESCAPED_UNICODE)
+                'acid' => $acid,
+                'rule_name' => $rule_name,
+                'policy' => $request->policy,
+                'application_object' => $request->application_object,
+                'budget' => $request->budget,
+                'kpi' => $request->kpi,
+                'append_budget' => $request->append_budget,
+                'cron_time' => $request->cron_time,
+                'status' => $request->status ? 1 : 0
             ]);
 
             $rule->save();
 
-            $items = $request->input('item');
-            $conditions = $request->input('condition');
-            $val1s = $request->input('val1');
-            $val2s = $request->input('val2');
-            foreach ($items as $k => $v) {
-                $item = $rule->rules()->make([
-                    'item' => $v,
-                    'condition' => $conditions[$k],
-                    'val1' => $val1s[$k],
-                    'val2' => $val2s[$k]
-                ]);
-                $item->save();
-            }
-
-
-            return $rule;
+            // 如果是指定计划，提交到关联表中保存记录
         });
-
-        session()->flash('success', '规则创建成功！');
-
-        return redirect()->route('rules.index');
-    }
-
-    public function store_new(RuleRequest $request)
-    {
-        // 开启事务
-        DB::beginTransaction();
-
-        $policy = $request->policy; // 策略模板
-        $rule_object = $request->rule_object; // 应用对象 ①：所有计划 ②：指定计划（需计划ID）
-        $clock = $request->clock;
-        $items = $request->item;
-        $conditions = $request->condition;
-        $val1s = $request->val1;
-        $val2s = $request->val2;
-
-        $str = make_grid();
-
-        // 同时生成 shell
-        $shell_path = base_path() . "/shell/";
-        if (!file_exists($shell_path)) {
-            mkdir($shell_path, 0777, true);
-        }
-
-        $json = [
-            'shell' => "$str",
-            'clock' => $clock
-        ];
-
-        $rule = new Rule([
-            'acid' => $str, // 生成唯一标志
-            'clock' => $request->clock, // 时刻每小时多少分钟执行
-            'rule_name' => $request->rule_name, // 规则名称
-            'rule_object' => $rule_object, // 应用对象
-            'rule_policy' => $policy, // 策略模板
-            'ad_id' => $request->ad_id,
-            'execute_item' => $request->execute_item, // 执行项
-            'execute_condition' => $request->execute_condition, // 执行条件
-            'execute_val' => $request->execute_val, // 执行值
-            'shell' => json_encode($json, JSON_UNESCAPED_UNICODE)
-        ]);
-
-        $ruleID = $rule->save();
-
-        foreach ($items as $k => $v) {
-            $item = $rule->rules()->make([
-                'item' => $v,
-                'condition' => $conditions[$k],
-                'val1' => $val1s[$k],
-                'val2' => $val2s[$k]
-            ]);
-            $item->save();
-        }
-
-        if ($ruleID) {
-            DB::commit();
-        } else {
-            DB::rollBack();
-        }
 
         session()->flash('success', '规则创建成功！');
 
@@ -202,76 +99,23 @@ class RulesController extends Controller
      */
     public function edit(Rule $rule)
     {
-        // 获取所有计划列表
-        $url = 'https://ad.oceanengine.com/open_api/2/ad/get/';
-
-        $response = Zttp::withHeaders([
-            'Content-Type' => 'application/json',
-            'Access-Token' => Redis::get(env('AD_APP_ID') . '_access_token')
-        ])->get($url, [
-            "advertiser_id" => env('AD_ADVERTISER_ID')
-        ]);
-
-        $planList = $response->json()['data']['list'];
-
-        return view('rules.edit_new', compact('rule', 'planList'));
+        return view('rules.edit', compact('rule'));
     }
 
     public function update(Request $request, Rule $rule)
     {
-        // 开启事务
-        DB::beginTransaction();
+        $rule = DB::transaction(function () use ($request, $rule) {
+            $status = 0;
+            if ($request->status == 'on') $status = 1;
 
-        $policy = $request->policy; // 策略模板
-        $rule_object = $request->rule_object; // 应用对象 ①：所有计划 ②：指定计划（需计划ID）
-        $clock = $request->clock;
-        $items = $request->item;
-        $conditions = $request->condition;
-        $val1s = $request->val1;
-        $val2s = $request->val2;
+            // 修改 request 状态
+            $request->merge(['status' => $status]);
 
-        $acid =  $rule->acid;
-
-        $json = [
-            'shell' => $rule->acid,
-            'minute' => $clock
-        ];
-
-        $data = [
-            'acid' => $acid, // 生成唯一标志
-            'clock' => $request->clock, // 时刻每小时多少分钟执行
-            'rule_name' => $request->rule_name, // 规则名称
-            'rule_object' => $rule_object, // 应用对象
-            'rule_policy' => $policy, // 策略模板
-            'execute_item' => $request->execute_item, // 执行项
-            'execute_condition' => $request->execute_condition, // 执行条件
-            'execute_val' => $request->execute_val, // 执行值
-            'shell' => json_encode($json, JSON_UNESCAPED_UNICODE)
-        ];
-
-        $data['ad_id'] = '';
-
-        if (in_array($request->rule_object, [2, 4])) $data['ad_id'] = $request->ad_id;
-
-        $res = $rule->update($data);
-
-        $rule->rules()->delete();
-
-        foreach ($items as $k => $v) {
-            $item = $rule->rules()->make([
-                'item' => $v,
-                'condition' => $conditions[$k],
-                'val1' => $val1s[$k],
-                'val2' => $val2s[$k]
-            ]);
-            $item->save();
-        }
-
-        if ($res !== false) {
-            DB::commit();
-        } else {
-            DB::rollBack();
-        }
+            $rule->update($request->only([
+                'policy', 'application_object',
+                'budget', 'kpi', 'append_budget', 'cron_time', 'status'
+            ]));
+        });
 
         session()->flash('success', '规则编辑成功！');
 
@@ -293,26 +137,23 @@ class RulesController extends Controller
 
     public function setStatus(Request $request)
     {
-         $id = $request->input('id');
-         $status = $request->input('status');
+        $id = $request->input('id');
 
-         $ruleInfo = DB::table('rules')->where("id", $id)->select('shell', 'acid')->get();
+        $status = $request->input('status');
 
-         $shell_command = json_decode($ruleInfo[0]->shell);
+        $ruleInfo = DB::table('rules')->where("id", $id)->select('cron_time', 'acid')->get();
 
-         $acid = $ruleInfo[0]->acid;
+        $acid = $ruleInfo[0]->acid;
 
-         $shell = $shell_command->shell;
+        $minute = $ruleInfo[0]->cron_time;
 
-         $minute = $shell_command->minute;
+        $command = 'stop';
+        if ($status == 1) $command = 'start';
 
-         $command = 'stop';
-         if ($status == 1) $command = 'start';
+//         shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $acid $minute $acid 2>&1");
 
-         shell_exec("php /www/wwwroot/rule.usigh.com/test.php $command $shell $minute $acid 2>&1");
+        DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
 
-         DB::table('rules')->where('id', $id)->update(['status' => $status, 'updated_at' => Carbon::now()]);
-
-         return [];
+        return [];
     }
 }

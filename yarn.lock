@@ -6229,10 +6229,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-sweetalert2@^9.1.5:
-  version "9.1.5"
-  resolved "https://registry.npm.taobao.org/sweetalert2/download/sweetalert2-9.1.5.tgz#8dd6f63916348f7242c1985c5f51a724ca44c9d5"
-  integrity sha1-jdb2ORY0j3JCwZhcX1GnJMpEydU=
+sweetalert2@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.npm.taobao.org/sweetalert2/download/sweetalert2-9.4.0.tgz#7dc06b09b830e201b5a51a2c84e52af3b8f396be"
+  integrity sha1-fcBrCbgw4gG1pRoshOUq87jzlr4=
 
 sweetalert@^2.1.2:
   version "2.1.2"

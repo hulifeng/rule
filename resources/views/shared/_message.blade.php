@@ -4,8 +4,7 @@
             // 触发消息提示
             fire();
 
-            function fire()
-            {
+            function fire() {
                 Toast.fire({
                     title: "{{session()->get($msg)}}",
                     icon: "success"
@@ -14,4 +13,3 @@
         </script>
     @endif
 @endforeach
-

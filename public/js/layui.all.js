@@ -20710,7 +20710,7 @@ layui.define("jquery", function (e) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\test_program\rule\public\static\layui\layui.all.js */"./public/static/layui/layui.all.js");
+module.exports = __webpack_require__(/*! D:\test_program\businessrule\rule\public\static\layui\layui.all.js */"./public/static/layui/layui.all.js");
 
 
 /***/ })
